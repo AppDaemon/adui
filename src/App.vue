@@ -67,6 +67,9 @@ export default {
       {title: 'Sequences', icon: 'mdi-step-forward-2', nav: "/sequences"},
       {title: 'Rules', icon: 'mdi-ruler-square-compass', nav: "/rules"},
     ],
-  })
+  }),
+  mounted() {
+    //alert(this.$AD.fred)
+  }
 }
 </script>

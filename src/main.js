@@ -7,6 +7,10 @@ import titleMixin from './mixins/titleMixin'
 Vue.config.productionTip = false
 Vue.mixin(titleMixin)
 
+import AD from './ad.js'
+
+Vue.prototype.$AD = new AD()
+
 new Vue({
   router,
   vuetify,
