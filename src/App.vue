@@ -69,7 +69,7 @@ export default {
     ],
   }),
   mounted() {
-    //alert(this.$AD.fred)
+    this.$AD.ad_connect()
   }
 }
 </script>
