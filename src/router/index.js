@@ -5,6 +5,7 @@ import AppManagement from "../views/AppManagement";
 import Dashboards from "../views/Dashboards";
 import Rules from "../views/Rules";
 import Sequences from "../views/Sequences";
+import Logs from "../views/Logs";
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/sequences',
     name: 'Sequences',
     component: Sequences
+  },
+  {
+    path: '/logs',
+    name: 'Lgs',
+    component: Logs
   }
 ]
 
