@@ -40,7 +40,7 @@ export default {
   data: () => ({
     mini: true,
     items: [
-      {title: 'Admin UI', icon: 'mdi-chemical-weapon', nav: "/"},
+      {title: 'State', icon: 'mdi-chemical-weapon', nav: "/"},
       {title: 'Logs', icon: 'mdi-database', nav: "/logs"},
       {title: 'Dashboards', icon: 'mdi-tablet-dashboard', nav: "/dashboards"},
       {title: 'App Management', icon: 'mdi-apps', nav: "/appmanagement"},

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Admin from '../views/Admin.vue'
+import Admin from '../views/State.vue'
 import AppManagement from "../views/AppManagement";
 import Dashboards from "../views/Dashboards";
 import Rules from "../views/Rules";

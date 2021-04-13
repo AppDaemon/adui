@@ -1,10 +1,10 @@
 <template>
-  <h1>Admin</h1>
+  <h1>State</h1>
 </template>
 
 <script>
 export default {
-  title: 'AppDaemon Administration',
+  title: 'AppDaemon State',
 }
 </script>
 
