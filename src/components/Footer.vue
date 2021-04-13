@@ -11,6 +11,7 @@
         v-for="link in links"
         :key="link.title"
         :href="link.link"
+        target="_blank"
         color="white"
         text
         rounded
