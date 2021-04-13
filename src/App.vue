@@ -34,30 +34,25 @@
 
     </v-navigation-drawer>
 
-    <v-app-bar
-        app
-        color="indigo"
-        dark
-        height="50"
-    >
-      <v-toolbar-title>AppDaemon</v-toolbar-title>
-    </v-app-bar>
-
+    <TopBar></TopBar>
 
     <v-main>
       <router-view/>
     </v-main>
-    <v-footer
-        color="indigo"
-        app
-    >
-      <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <Footer></Footer>
   </v-app>
 </template>
 
 <script>
+import Footer from './components/Footer';
+import TopBar from './components/TopBar';
+
 export default {
+  name: "adui",
+  components: {
+    Footer,
+    TopBar
+  },
   data: () => ({
     mini: true,
     items: [
