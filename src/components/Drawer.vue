@@ -3,16 +3,16 @@
         app
         :mini-variant="mini"
     >
-      <v-list height="50">
+      <v-card flat height="50">
         <v-list-item>
           <v-list-item-icon @click.stop="mini = !mini">
             <v-icon>mdi-menu</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>AppDaemon Menu</v-list-item-title>
+            <v-list-item-title>MENU</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
+      </v-card>
       <v-divider></v-divider>
 
       <v-list>
