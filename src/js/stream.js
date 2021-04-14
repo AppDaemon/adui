@@ -25,8 +25,7 @@ export default class Stream {
         let stream_url = prot + '//' + domain + ':' + port + "/stream";
 
         if (transport === "ws") {
-            this.stream = new WSStream(stream_url, this.ad_on_connect, this.ad_on_message, this.ad_on_disconnect)
-            this.stream.parent = this
+            this.stream = new WSStream(stream_url, this.ad_on_connect.bind(this), this.ad_on_message.bind(this), this.ad_on_disconnect.bind(this))
         } else {
             alert("Unknown transport", transport)
         }
@@ -42,7 +41,7 @@ export default class Stream {
     ad_on_connect() {
         var data =
             {
-                client_name: this.parent.client_name
+                client_name: this.client_name
             };
 
         if (this.creds !== '') {
@@ -59,7 +58,7 @@ export default class Stream {
     }
 
     ad_on_disconnect() {
-        // do nothing
+        this.on_disconnect()
     }
 
     send(request, callback) {
@@ -82,23 +81,23 @@ export default class Stream {
                 } else if (data.response_type === "state_changed" || data.response_type === "event") {
                     // Call the function but don't delete the registration
                     let id = data.response_id;
-                    if (id in this.parent.outstanding_requests) {
-                        let callback = this.parent.outstanding_requests[id].callback;
+                    if (id in this.outstanding_requests) {
+                        let callback = this.outstanding_requests[id].callback;
                         if (callback !== undefined) {
                             callback(data)
                         }
                     }
                 } else if (data.response_type === "hello") {
                     let id = data.response_id;
-                    delete this.parent.outstanding_requests[id];
-                    this.parent.on_connect(data)
+                    delete this.outstanding_requests[id];
+                    this.on_connect(data)
                 } else {
                     // This is a response to a one off request, dispatch it to the requester
                     if ("response_id" in data) {
                         let id = data.response_id;
-                        if (id in this.parent.outstanding_requests) {
-                            let callback = this.parent.outstanding_requests[id].callback;
-                            delete this.parent.outstanding_requests[id];
+                        if (id in this.outstanding_requests) {
+                            let callback = this.outstanding_requests[id].callback;
+                            delete this.outstanding_requests[id];
                             if (callback !== undefined) {
                                 callback(data)
                             }
@@ -108,8 +107,8 @@ export default class Stream {
                         }
                     } else {
                         // No specific callback, so send to generic callback if we have one
-                        if (this.parent.on_message !== undefined) {
-                            this.parent.on_message(data)
+                        if (this.on_message !== undefined) {
+                            this.on_message(data)
                         } else {
                             // Nothing to do so drop response
                             console.log("Dropping non-specific callback", data)
@@ -195,9 +194,9 @@ class WSStream {
         this.webSocket = new ReconnectingWebSocket(stream);
         this.webSocket.parent = this
 
-        this.webSocket.onopen = this.ws_on_connect;
-        this.webSocket.onmessage = this.ws_on_message;
-        this.webSocket.onclose = this.ws_on_disconnect;
+        this.webSocket.onopen = this.ws_on_connect.bind(this);
+        this.webSocket.onmessage = this.ws_on_message.bind(this);
+        this.webSocket.onclose = this.ws_on_disconnect.bind(this);
     }
 
     send(data) {
@@ -205,15 +204,15 @@ class WSStream {
     }
 
     ws_on_connect() {
-        this.parent.on_connect()
+        this.on_connect()
     }
 
     ws_on_message(wsevent) {
         var data = JSON.parse(wsevent.data);
-        this.parent.on_message(data)
+        this.on_message(data)
     }
 
     ws_on_disconnect() {
-        this.parent.on_disconnect()
+        this.on_disconnect()
     }
 }

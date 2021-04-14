@@ -7,17 +7,23 @@
   >
     <v-toolbar-title>AppDaemon</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-spacer></v-spacer>
-    <!--
 
-          <v-btn icon>
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-
-          <v-btn icon>
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-    -->
+    <template v-if="connected">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon v-bind="attrs" v-on="on">mdi-lan-connect</v-icon>
+        </template>
+        <span>Connected</span>
+      </v-tooltip>
+    </template>
+    <template v-else>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon v-bind="attrs" v-on="on">mdi-lan-disconnect</v-icon>
+        </template>
+        <span>Disconnected</span>
+      </v-tooltip>
+    </template>
 
     <v-menu
         left
@@ -54,6 +60,9 @@ export default {
       {option: "Logout", callback: logout},
     ]
   }),
+  props: {
+    connected: Boolean
+  },
   methods: {}
 }
 

@@ -7,51 +7,57 @@ export default class AD {
         this.connected = false
     }
 
+    on_connection_change(callback) {
+        this.connected_callback = callback
+    }
+
     ad_connect() {
-        console.log("Connecting")
+        //console.log("Connecting")
         let creds = ''
-        this.stream = new Stream("ws", location.protocol, this.host, this.port, "Admin Client", creds, this.on_connect, this.on_message, this.on_disconnect);
-        this.stream.parent = this
+        this.stream = new Stream("ws", location.protocol, this.host, this.port, "Admin Client", creds, this.on_connect.bind(this), this.on_message.bind(this), this.on_disconnect.bind(this));
     }
 
     on_connect() {
 
-        console.log("Connected")
+        //console.log("connect")
 
         // Grab state
 
-        console.log(this)
-        this.get_state('*', '*', this.parent.got_initial_state);
+        this.stream.get_state('*', '*', this.got_initial_state.bind(this));
 
         // subscribe to all events
 
-        this.listen_event('*', '*', this.parent.got_event);
+        this.stream.listen_event('*', '*', this.got_event.bind(this));
 
         // Subscribe to all state changes
 
-        this.listen_state('*', '*', this.parent.got_state_update)
+        this.stream.listen_state('*', '*', this.got_state_update.bind(this))
+
     }
 
     on_disconnect() {
-        console.log("disconnect")
+        this.connected = false
+        this.connected_callback(this.connected)
     }
 
     on_message() {
-        console.log("message")
+        //console.log("message")
     }
 
-    got_initial_state(data)
-    {
+    got_initial_state(data) {
+
+        console.log(data)
+
+        this.connected = true
+        this.connected_callback(this.connected)
+
+    }
+
+    got_event(data) {
         console.log(data)
     }
 
-    got_event(data)
-    {
-        console.log(data)
-    }
-
-    got_state_update(data)
-    {
+    got_state_update(data) {
         console.log(data)
     }
 }
