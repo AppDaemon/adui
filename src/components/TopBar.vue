@@ -56,14 +56,19 @@
 export default {
   name: 'TopBar',
   data: () => ({
+    connected: false,
     menu: [
       {option: "Logout", callback: logout},
     ]
   }),
-  props: {
-    connected: Boolean
+  mounted() {
+    this.$AD.add_sub("connect", null, this.connect_change)
   },
-  methods: {}
+  methods: {
+    connect_change(connected) {
+      this.connected = connected
+    },
+  }
 }
 
 function logout() {

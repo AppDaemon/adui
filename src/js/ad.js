@@ -1,14 +1,27 @@
 import Stream from './stream.js'
+import uuid from 'uuid/v4'
 
 export default class AD {
     constructor() {
         this.host = "prod.sanctuary.home"
         this.port = 5151
         this.connected = false
+        this.subs = []
     }
 
-    on_connection_change(callback) {
-        this.connected_callback = callback
+    add_sub(type, spec, callback) {
+        var handle = uuid()
+        this.subs[handle] = {type: type, spec: spec, callback: callback}
+        return handle
+    }
+
+    process_connected_callbacks(connected) {
+        let keys = Object.keys(this.subs);
+        keys.forEach((key) => {
+            if (this.subs[key].type === "connect") {
+                this.subs[key].callback(connected)
+            }
+        })
     }
 
     ad_connect() {
@@ -37,7 +50,7 @@ export default class AD {
 
     on_disconnect() {
         this.connected = false
-        this.connected_callback(this.connected)
+        this.process_connected_callbacks(this.connected)
     }
 
     on_message() {
@@ -49,7 +62,7 @@ export default class AD {
         console.log(data)
 
         this.connected = true
-        this.connected_callback(this.connected)
+        this.process_connected_callbacks(this.connected)
 
     }
 

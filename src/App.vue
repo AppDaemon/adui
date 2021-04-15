@@ -25,13 +25,7 @@ export default {
     connected: false
   }),
   mounted() {
-    this.$AD.on_connection_change(this.connect_change)
     this.$AD.ad_connect()
-  },
-  methods: {
-    connect_change(connected) {
-      this.connected = connected
-    },
   }
 }
 </script>
