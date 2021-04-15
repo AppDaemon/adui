@@ -15,11 +15,34 @@ export default class AD {
         return handle
     }
 
-    process_connected_callbacks(connected) {
-        let keys = Object.keys(this.subs);
-        keys.forEach((key) => {
-            if (this.subs[key].type === "connect") {
-                this.subs[key].callback(connected)
+    process_callback(type, operation, entity, data)
+    {
+        Object.keys(this.subs).forEach((key) => {
+            let sub = this.subs[key]
+            if (sub.type === type) {
+                if (type === "connect" || type === "namespace") {
+                    // simple match is enough
+                    this.subs[key].callback(entity, operation, data)
+                }
+                else if (type === "state")
+                {
+                    // need to check spec
+                    let spec = sub.spec.split(".")
+                    let ent = entity.split(".")
+
+                    let match=true
+                    for (let i=0;i<spec.length;i++)
+                    {
+                        if (spec[i] !== ent[i])
+                        {
+                            match = false
+                        }
+                    }
+                    if (match)
+                    {
+                        this.subs[key].callback(entity, operation, data)
+                    }
+                }
             }
         })
     }
@@ -50,7 +73,7 @@ export default class AD {
 
     on_disconnect() {
         this.connected = false
-        this.process_connected_callbacks(this.connected)
+        this.process_callback("connect", null, null, this.connected)
     }
 
     on_message() {
@@ -59,10 +82,17 @@ export default class AD {
 
     got_initial_state(data) {
 
-        console.log(data)
+        // Add all the entities and namespaces
+
+        Object.keys(data.data).forEach((ns) => {
+            this.process_callback("namespace", "add", ns)
+            Object.keys(data.data[ns]).forEach((entity) => {
+                this.process_callback("state", "add", ns + "." + entity, data.data[ns][entity])
+            })
+        })
 
         this.connected = true
-        this.process_connected_callbacks(this.connected)
+        this.process_callback("connect", null, null, this.connected)
 
     }
 
@@ -71,6 +101,8 @@ export default class AD {
     }
 
     got_state_update(data) {
-        console.log(data)
+        let entity = data.data.namespace + "." + data.data.data.entity_id
+        let state = data.data.data.new_state
+        this.process_callback("state", "update", entity, state)
     }
 }

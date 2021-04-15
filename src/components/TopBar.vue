@@ -5,7 +5,7 @@
       dark
       height="50"
   >
-    <v-toolbar-title>AppDaemon</v-toolbar-title>
+    <v-toolbar-title>AppDaemon {{version}}</v-toolbar-title>
     <v-spacer></v-spacer>
 
     <template v-if="connected">
@@ -57,17 +57,23 @@ export default {
   name: 'TopBar',
   data: () => ({
     connected: false,
+    version: "",
     menu: [
       {option: "Logout", callback: logout},
     ]
   }),
   mounted() {
+    // Subscribe to some stuff
     this.$AD.add_sub("connect", null, this.connect_change)
+    this.$AD.add_sub("state", "admin.sensor.appdaemon_version", this.version_change)
   },
   methods: {
-    connect_change(connected) {
+    connect_change(entity, action, connected) {
       this.connected = connected
     },
+    version_change(entity, action, state) {
+      this.version = "v" + state.state
+    }
   }
 }
 
