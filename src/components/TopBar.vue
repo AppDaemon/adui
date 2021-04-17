@@ -5,9 +5,10 @@
       dark
       height="50"
   >
-    <v-toolbar-title>AppDaemon {{version}}</v-toolbar-title>
+    <v-toolbar-title>AppDaemon {{ version }}</v-toolbar-title>
     <v-spacer></v-spacer>
-
+    {{title}}
+    <v-spacer></v-spacer>
     <template v-if="connected">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -62,6 +63,10 @@ export default {
       {option: "Logout", callback: logout},
     ]
   }),
+  props:
+      {
+        title: String
+      },
   mounted() {
     // Subscribe to some stuff
     this.$AD.add_sub("connect", null, this.connect_change)

@@ -4,6 +4,10 @@
 
 <script>
 export default {
-  title: 'AppDaemon Dashboards',
+  title: 'Dashboards',
+  mounted() {
+    console.log(this)
+    this.$emit('update-title', "Dashboards")
+  },
 }
 </script>

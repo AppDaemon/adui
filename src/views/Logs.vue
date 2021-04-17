@@ -4,6 +4,10 @@
 
 <script>
 export default {
-  title: 'AppDaemon Logs',
+  title: 'Logs',
+    mounted()
+  {
+        this.$emit('update-title', "Logs")
+  },
 }
 </script>

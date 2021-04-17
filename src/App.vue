@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <Drawer></Drawer>
-    <TopBar :connected="connected"></TopBar>
+    <TopBar :title="title" :connected="connected"></TopBar>
     <v-main>
-      <router-view/>
+      <router-view @update-title="updateTitle"/>
     </v-main>
     <Footer></Footer>
   </v-app>
@@ -22,8 +22,17 @@ export default {
     Drawer
   },
   data: () => ({
-    connected: false
+    connected: false,
+    title: "",
   }),
+  methods:
+      {
+        updateTitle(title)
+        {
+          console.log(title)
+          this.title = title
+        }
+      },
   mounted() {
     this.$AD.ad_connect()
   }

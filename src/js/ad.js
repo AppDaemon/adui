@@ -7,41 +7,64 @@ export default class AD {
         this.port = 5151
         this.connected = false
         this.subs = []
+        this.state = []
     }
 
     add_sub(type, spec, callback) {
         var handle = uuid()
-        this.subs[handle] = {type: type, spec: spec, callback: callback}
+        let thespec = null
+        if (typeof spec === "string") {
+            thespec = []
+            thespec[spec] = 0
+        } else {
+            thespec = spec
+        }
+        this.subs[handle] = {type: type, spec: thespec, callback: callback}
+
+        if (type === "state") {
+            // Send initial value if we have it
+            // Iterate all NS values and call process_callback
+
+            Object.keys(this.state).forEach((ns) => {
+                Object.keys(this.state[ns]).forEach((entity) => {
+                    this.process_callback([this.subs[handle]], "state", "add", this.fqentity(ns, entity), this.state[ns][entity])
+                })
+            })
+        }
+
         return handle
     }
 
-    process_callback(type, operation, entity, data)
+    fqentity(ns, entity)
     {
-        Object.keys(this.subs).forEach((key) => {
-            let sub = this.subs[key]
+        return ns + "." + entity
+    }
+
+    process_callback(subs, type, operation, entity, data) {
+        Object.keys(subs).forEach((key) => {
+            let sub = subs[key]
             if (sub.type === type) {
                 if (type === "connect" || type === "namespace") {
                     // simple match is enough
                     this.subs[key].callback(entity, operation, data)
-                }
-                else if (type === "state")
-                {
+                } else if (type === "state") {
                     // need to check spec
-                    let spec = sub.spec.split(".")
-                    let ent = entity.split(".")
+                    let specs = Object.keys(sub.spec)
+                    specs.forEach((spec_key) =>
+                    {
+                        let spec = spec_key.split(".")
+                        let ent = entity.split(".")
 
-                    let match=true
-                    for (let i=0;i<spec.length;i++)
-                    {
-                        if (spec[i] !== ent[i])
-                        {
-                            match = false
+                        let match = true
+                        for (let i = 0; i < spec.length; i++) {
+                            if (spec[i] !== ent[i]) {
+                                match = false
+                            }
                         }
-                    }
-                    if (match)
-                    {
-                        this.subs[key].callback(entity, operation, data)
-                    }
+                        if (match) {
+                            subs[key].callback(entity, operation, data)
+                        }
+                    })
                 }
             }
         })
@@ -73,7 +96,7 @@ export default class AD {
 
     on_disconnect() {
         this.connected = false
-        this.process_callback("connect", null, null, this.connected)
+        this.process_callback(this.subs, "connect", null, null, this.connected)
     }
 
     on_message() {
@@ -82,17 +105,21 @@ export default class AD {
 
     got_initial_state(data) {
 
-        // Add all the entities and namespaces
+        // Process add callback for anything that is already listening
 
         Object.keys(data.data).forEach((ns) => {
-            this.process_callback("namespace", "add", ns)
+            this.process_callback(this.subs, "namespace", "add", ns)
             Object.keys(data.data[ns]).forEach((entity) => {
-                this.process_callback("state", "add", ns + "." + entity, data.data[ns][entity])
+                this.process_callback(this.subs, "state", "add", this.fqentity(ns, entity), data.data[ns][entity])
             })
         })
 
+        // Save local copy
+
+        this.state = data.data
+
         this.connected = true
-        this.process_callback("connect", null, null, this.connected)
+        this.process_callback(this.subs, "connect", null, null, this.connected)
 
     }
 
@@ -101,8 +128,14 @@ export default class AD {
     }
 
     got_state_update(data) {
-        let entity = data.data.namespace + "." + data.data.data.entity_id
+        let ns = data.data.namespace
+        let entity = data.data.data.entity_id
         let state = data.data.data.new_state
-        this.process_callback("state", "update", entity, state)
+
+        // Update local copy
+
+        this.state[ns][entity] = state
+        let fqentity = ns + "." + entity
+        this.process_callback(this.subs, "state", "update", fqentity, state)
     }
 }

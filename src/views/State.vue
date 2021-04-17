@@ -1,28 +1,49 @@
 <template>
-  <v-tabs grow>
-    <v-tab>Apps</v-tab>
-    <v-tab>Entities</v-tab>
-    <v-tab>Threads</v-tab>
-    <v-tab>Callbacks</v-tab>
-    <v-tab-item>
-      Apps
-    </v-tab-item>
-    <v-tab-item>
-     Entities
-    </v-tab-item>
-    <v-tab-item>
-     Threads
-    </v-tab-item>
-    <v-tab-item>
-     Callbacks
-    </v-tab-item>
+  <v-tabs v-model="tab" grow>
+    <v-tab href="#apps">Apps</v-tab>
+    <v-tab href="#entities">Entities</v-tab>
+    <v-tab href="#threads">Threads</v-tab>
+    <v-tab href="#callbacks">Callbacks</v-tab>
+    <v-tabs-items :value="tab">
+      <v-tab-item value="apps">
+        Apps
+      </v-tab-item>
+      <v-tab-item value="entities">
+        Entities
+      </v-tab-item>
+      <v-tab-item value="threads">
+        <Threads></Threads>
+      </v-tab-item>
+      <v-tab-item value="callbacks">
+        Callbacks
+      </v-tab-item>
+    </v-tabs-items>
   </v-tabs>
 
 </template>
 
 <script>
+import Threads from "../components/Threads";
+
 export default {
-  title: 'AppDaemon State',
+  title: 'State',
+  components: {
+    Threads,
+  },
+  mounted()
+  {
+        this.$emit('update-title', "State")
+  },
+  computed: {
+    tab: {
+      set(tab) {
+        this.$router.replace({query: {...this.$route.query, tab}})
+      },
+      get() {
+        return this.$route.query.tab
+      }
+    }
+  },
 }
 </script>
 

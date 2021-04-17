@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Admin from '../views/State.vue'
+import Home from '../views/Home.vue'
+import State from '../views/State.vue'
+import Events from '../views/Events.vue'
 import AppManagement from "../views/AppManagement";
 import Dashboards from "../views/Dashboards";
 import Rules from "../views/Rules";
@@ -12,8 +14,18 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Admin',
-    component: Admin
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/state',
+    name: 'State',
+    component: State
+  },
+  {
+    path: '/events',
+    name: 'Events',
+    component: Events
   },
   {
     path: '/appmanagement',

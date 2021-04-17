@@ -4,7 +4,10 @@
 
 <script>
 export default {
-  title: 'AppDaemon App Management',
+  title: 'App Management',
+  mounted() {
+    this.$emit('update-title', "App Management")
+  }
 }
 </script>
 

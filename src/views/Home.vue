@@ -1,12 +1,14 @@
 <template>
-  <h1>Rules</h1>
+  <h1>Home</h1>
 </template>
 
 <script>
 export default {
-  title: 'Rules',
+  title: 'Home',
   mounted() {
-    this.$emit('update-title', "Logs")
+    this.$emit('update-title', "Home")
   },
+
 }
 </script>
+
