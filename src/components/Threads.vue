@@ -1,14 +1,29 @@
 <template>
   <v-container fluid>
     <v-card outlined>
-      <v-card flat max-width="400" class="ma-1">
-        <v-simple-table>
-          <tr v-for="(sensor, index) in sensors" v-bind:key="index">
-            <th class="text-left font-weight-bold text-sm-body-2">{{ sensor.text }}</th>
-            <td class="text-sm-body-2">{{ sensor.state.state }}</td>
-          </tr>
-        </v-simple-table>
-      </v-card>
+      <v-row class="align-center">
+        <v-col>
+          <v-card flat max-width="400" class="ma-1">
+            <v-simple-table>
+              <tr v-for="(sensor, index) in sensors" v-bind:key="index">
+                <th class="text-left font-weight-bold text-sm-body-2">{{ sensor.text }}</th>
+                <td class="text-sm-body-2">{{ sensor.state.state }}</td>
+              </tr>
+            </v-simple-table>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+              class="ma-1"
+          >
+          </v-text-field>
+        </v-col>
+      </v-row>
     </v-card>
     <v-divider></v-divider>
     <v-card outlined>
@@ -16,6 +31,8 @@
           :headers="thread_headers"
           :items="threads"
           :items-per-page="10"
+          dense
+          :search="search"
           class="elevation-1">
       </v-data-table>
     </v-card>
@@ -27,6 +44,7 @@ export default {
   name: 'Threads',
   title: "Threads",
   data: () => ({
+    search: "",
     sensors:
         [
           {text: "Current Busy", entity: "admin.sensor.threads_current_busy", state: {state: null}},
