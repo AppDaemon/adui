@@ -29,7 +29,6 @@ export default {
       {
         updateTitle(title)
         {
-          console.log(title)
           this.title = title
         }
       },

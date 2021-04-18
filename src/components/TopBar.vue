@@ -7,7 +7,7 @@
   >
     <v-toolbar-title>AppDaemon {{ version }}</v-toolbar-title>
     <v-spacer></v-spacer>
-    {{title}}
+    {{ title }}
     <v-spacer></v-spacer>
     <template v-if="connected">
       <v-tooltip bottom>
@@ -61,7 +61,8 @@ export default {
     version: "",
     menu: [
       {option: "Logout", callback: logout},
-    ]
+    ],
+    subs: []
   }),
   props:
       {
@@ -69,8 +70,11 @@ export default {
       },
   mounted() {
     // Subscribe to some stuff
-    this.$AD.add_sub("connect", null, this.connect_change)
-    this.$AD.add_sub("state", "admin.sensor.appdaemon_version", this.version_change)
+    this.subs.push(this.$AD.add_sub("connect", null, this.connect_change))
+    this.subs.push(this.$AD.add_sub("state", "admin.sensor.appdaemon_version", this.version_change))
+  },
+  beforeDestroy() {
+    this.$AD.remove_subs(this.subs)
   },
   methods: {
     connect_change(entity, action, connected) {

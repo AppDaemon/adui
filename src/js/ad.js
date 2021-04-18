@@ -8,18 +8,12 @@ export default class AD {
         this.connected = false
         this.subs = []
         this.state = []
+        this.namespace = []
     }
 
     add_sub(type, spec, callback) {
         var handle = uuid()
-        let thespec = null
-        if (typeof spec === "string") {
-            thespec = []
-            thespec[spec] = 0
-        } else {
-            thespec = spec
-        }
-        this.subs[handle] = {type: type, spec: thespec, callback: callback}
+        this.subs[handle] = {type: type, spec: spec, callback: callback}
 
         if (type === "state") {
             // Send initial value if we have it
@@ -31,12 +25,20 @@ export default class AD {
                 })
             })
         }
-
         return handle
     }
 
-    fqentity(ns, entity)
-    {
+    remove_subs(subs) {
+        for (let i = 0; i < subs.length; i++) {
+            if (subs[i] in this.subs) {
+                delete this.subs[subs[i]]
+            } else {
+                console.log("Handle not found: " + subs[i])
+            }
+        }
+    }
+
+    fqentity(ns, entity) {
         return ns + "." + entity
     }
 
@@ -49,22 +51,18 @@ export default class AD {
                     this.subs[key].callback(entity, operation, data)
                 } else if (type === "state") {
                     // need to check spec
-                    let specs = Object.keys(sub.spec)
-                    specs.forEach((spec_key) =>
-                    {
-                        let spec = spec_key.split(".")
-                        let ent = entity.split(".")
+                    let spec = sub.spec.split(".")
+                    let ent = entity.split(".")
 
-                        let match = true
-                        for (let i = 0; i < spec.length; i++) {
-                            if (spec[i] !== ent[i]) {
-                                match = false
-                            }
+                    let match = true
+                    for (let i = 0; i < spec.length; i++) {
+                        if (spec[i] !== ent[i]) {
+                            match = false
                         }
-                        if (match) {
-                            subs[key].callback(entity, operation, data)
-                        }
-                    })
+                    }
+                    if (match) {
+                        subs[key].callback(entity, operation, data)
+                    }
                 }
             }
         })
@@ -108,6 +106,7 @@ export default class AD {
         // Process add callback for anything that is already listening
 
         Object.keys(data.data).forEach((ns) => {
+            this.namespace.push(ns)
             this.process_callback(this.subs, "namespace", "add", ns)
             Object.keys(data.data[ns]).forEach((entity) => {
                 this.process_callback(this.subs, "state", "add", this.fqentity(ns, entity), data.data[ns][entity])

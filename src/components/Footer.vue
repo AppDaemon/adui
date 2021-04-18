@@ -45,11 +45,15 @@ export default {
       {name: 'mdi-discord', url: 'https://discord.gg/sgSr79jW5x', target: "_blank"},
       {name: 'mdi-forum', url: 'https://community.home-assistant.io/c/third-party/appdaemon/21', target: "_blank"},
     ],
+    subs: []
   }),
   mounted() {
     // Subscribe to some stuff
-    this.$AD.add_sub("state", "admin.sensor.appdaemon_booted", this.booted_change)
-    this.$AD.add_sub("state", "admin.sensor.appdaemon_uptime", this.uptime_change)
+    this.subs.push(this.$AD.add_sub("state", "admin.sensor.appdaemon_booted", this.booted_change))
+    this.subs.push(this.$AD.add_sub("state", "admin.sensor.appdaemon_uptime", this.uptime_change))
+  },
+  beforeDestroy() {
+    this.$AD.remove_subs(this.subs)
   },
   methods: {
     booted_change(entity, action, state) {
