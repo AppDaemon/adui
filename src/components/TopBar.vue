@@ -56,25 +56,27 @@
 <script>
 export default {
   name: 'TopBar',
-  data: () => ({
-    connected: false,
-    version: "",
-    menu: [
-      {option: "Logout", callback: logout},
-    ],
-    subs: []
-  }),
+  data: function () {
+    return {
+      connected: false,
+      version: "",
+      menu: [
+        {option: "Logout", callback: logout},
+      ],
+      subs: []
+    }
+  },
   props:
       {
         title: String
       },
   mounted() {
     // Subscribe to some stuff
-    this.subs.push(this.$AD.add_sub("connect", null, this.connect_change))
-    this.subs.push(this.$AD.add_sub("state", "admin.sensor.appdaemon_version", this.version_change))
+    this.subs.push(this.$SUBS.add_sub("connect", null, this.connect_change))
+    this.subs.push(this.$SUBS.add_sub("state", "admin.sensor.appdaemon_version", this.version_change))
   },
   beforeDestroy() {
-    this.$AD.remove_subs(this.subs)
+    this.$SUBS.remove_subs(this.subs)
   },
   methods: {
     connect_change(entity, action, connected) {

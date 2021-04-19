@@ -21,19 +21,20 @@ export default {
     TopBar,
     Drawer
   },
-  data: () => ({
-    connected: false,
-    title: "",
-  }),
+  data: function () {
+    return {
+      connected: false,
+      title: "",
+    }
+  },
   methods:
       {
-        updateTitle(title)
-        {
+        updateTitle(title) {
           this.title = title
         }
       },
   mounted() {
-    this.$AD.ad_connect()
+    this.$SUBS.ad_connect()
   }
 }
 </script>

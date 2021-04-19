@@ -1,7 +1,7 @@
 import Stream from './stream.js'
 import uuid from 'uuid/v4'
 
-export default class AD {
+export default class Subscriptions {
     constructor() {
         this.host = "prod.sanctuary.home"
         this.port = 5151

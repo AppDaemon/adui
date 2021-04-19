@@ -49,8 +49,8 @@ export default {
   }),
   mounted() {
     // Subscribe to some stuff
-    this.subs.push(this.$AD.add_sub("state", "admin.sensor.appdaemon_booted", this.booted_change))
-    this.subs.push(this.$AD.add_sub("state", "admin.sensor.appdaemon_uptime", this.uptime_change))
+    this.subs.push(this.$SUBS.add_sub("state", "admin.sensor.appdaemon_booted", this.booted_change))
+    this.subs.push(this.$SUBS.add_sub("state", "admin.sensor.appdaemon_uptime", this.uptime_change))
   },
   beforeDestroy() {
     this.$AD.remove_subs(this.subs)
