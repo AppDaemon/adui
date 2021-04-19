@@ -10,6 +10,16 @@ export default class Utils {
         return (thisdate)
     }
 
+    formatArgs(args)
+    {
+        let result = ""
+        Object.keys(args).forEach((arg) => {
+            result += "|" + arg + "=" + args[arg]
+        })
+        result += "|"
+        return result
+    }
+
     update_sensor_block(entity, action, state, table) {
         for (let i = 0; i < table.length; i++) {
             if (table[i].entity === entity) {
