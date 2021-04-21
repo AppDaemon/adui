@@ -42,6 +42,13 @@ export default class Subscriptions {
         return ns + "." + entity
     }
 
+    logout() {
+        delete localStorage.ad_creds
+        this.subs = []
+        this.ad_connect(this.need_logon, '')
+    }
+
+
     process_callback(subs, type, operation, entity, data) {
         Object.keys(subs).forEach((key) => {
             let sub = subs[key]
@@ -68,10 +75,24 @@ export default class Subscriptions {
         })
     }
 
-    ad_connect() {
+    ad_connect(need_logon, creds) {
         //console.log("Connecting")
-        let creds = ''
-        this.stream = new Stream("ws", location.protocol, this.host, this.port, "Admin Client", creds, this.on_connect.bind(this), this.on_message.bind(this), this.on_disconnect.bind(this));
+
+        this.need_logon = need_logon
+        let mycreds = ''
+        if (creds !== null) {
+            localStorage.ad_creds = creds
+            mycreds = creds
+        } else {
+            if (localStorage.ad_creds) {
+                mycreds = localStorage.ad_creds
+            }
+        }
+        this.stream = new Stream("ws", location.protocol, this.host, this.port, "Admin Client", mycreds, this.on_connect.bind(this), this.on_message.bind(this), this.on_disconnect.bind(this), this.on_error.bind(this), need_logon);
+    }
+
+    on_error(error) {
+        console.log(error)
     }
 
     on_connect() {

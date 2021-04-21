@@ -61,7 +61,7 @@ export default {
       connected: false,
       version: "",
       menu: [
-        {option: "Logout", callback: logout},
+        {option: "Logout", callback: this.logout},
       ],
       subs: []
     }
@@ -84,12 +84,11 @@ export default {
     },
     version_change(entity, action, state) {
       this.version = "v" + state.state
+    },
+    logout()
+    {
+      this.$SUBS.logout()
     }
   }
 }
-
-function logout() {
-  console.log("Logout")
-}
-
 </script>

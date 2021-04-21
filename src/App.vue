@@ -6,6 +6,41 @@
       <router-view @update-title="updateTitle"/>
     </v-main>
     <Footer></Footer>
+    <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="headline">Enter Password</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-text-field
+                v-on:keyup.enter="logon_done()"
+                label="Password"
+                :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="() => (value = !value)"
+                :type="value ? 'password' : 'text'"
+                required
+                v-model="password"
+            ></v-text-field>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="blue darken-1"
+              text
+              @click="logon_done()"
+          >
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-app>
 </template>
 
@@ -13,6 +48,7 @@
 import Footer from './components/Footer';
 import TopBar from './components/TopBar';
 import Drawer from './components/Drawer';
+import bcrypt from 'bcryptjs'
 
 export default {
   name: "adui",
@@ -25,16 +61,32 @@ export default {
     return {
       connected: false,
       title: "",
+      dialog: false,
+      password: "",
+      value: String
     }
   },
   methods:
       {
         updateTitle(title) {
           this.title = title
-        }
+        },
+        need_logon() {
+          this.password = ""
+          this.dialog = true
+        },
+        logon_done() {
+          this.dialog = false
+          let creds = this.encryptPassword(this.password)
+          this.$SUBS.ad_connect(this.need_logon.bind(this), creds)
+        },
+        encryptPassword(password) {
+          const salt = bcrypt.genSaltSync(10)
+          return bcrypt.hashSync(password, salt)
+        },
       },
   mounted() {
-    this.$SUBS.ad_connect()
+    this.$SUBS.ad_connect(this.need_logon.bind(this), null)
   }
 }
 </script>

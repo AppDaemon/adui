@@ -37,8 +37,8 @@
 export default {
   name: 'Footer',
   data: () => ({
-    booted: "",
-    uptime: "",
+    booted: "...",
+    uptime: "...",
     icons: [
       {name: 'mdi-github', url: 'https://github.com/AppDaemon', target: "_blank"},
       {name: 'mdi-text-box', url: 'https://appdaemon.readthedocs.io/en/latest/', target: "_blank"},

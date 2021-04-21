@@ -2,12 +2,14 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 
 export default class Stream {
 
-    constructor(transport, protocol, domain, port, client_name, creds, on_connect, on_message, on_disconnect) {
+    constructor(transport, protocol, domain, port, client_name, creds, on_connect, on_message, on_disconnect, on_error, need_logon) {
 
         this.client_name = client_name;
         this.on_connect = on_connect;
         this.on_message = on_message;
         this.on_disconnect = on_disconnect;
+        this.on_error = on_error;
+        this.need_logon = need_logon
         this.creds = creds
         this.outstanding_requests = {};
 
@@ -25,7 +27,7 @@ export default class Stream {
         let stream_url = prot + '//' + domain + ':' + port + "/stream";
 
         if (transport === "ws") {
-            this.stream = new WSStream(stream_url, this.ad_on_connect.bind(this), this.ad_on_message.bind(this), this.ad_on_disconnect.bind(this))
+            this.stream = new WSStream(stream_url, this.ad_on_connect.bind(this), this.ad_on_message.bind(this), this.ad_on_disconnect.bind(this), this.ad_on_error.bind(this))
         } else {
             alert("Unknown transport", transport)
         }
@@ -57,6 +59,10 @@ export default class Stream {
         this.send(request);
     }
 
+    ad_on_error(error) {
+        this.on_error(error)
+    }
+
     ad_on_disconnect() {
         this.on_disconnect()
     }
@@ -73,7 +79,11 @@ export default class Stream {
 
     ad_on_message(data) {
         if ("response_success" in data && data.response_success === false) {
-            console.log("Error in stream: " + data.response_error, data)
+            if (data.response_error.includes("authorization failed")) {
+                this.need_logon()
+            } else {
+                console.log("Error in stream: " + data.response_error, data)
+            }
         } else {
             if ("response_type" in data) {
                 if (data.response_type === "listen_state" || data.response_type === "listen_event") {
@@ -185,18 +195,19 @@ export default class Stream {
 }
 
 class WSStream {
-    constructor(stream, on_connect, on_message, on_disconnect) {
+    constructor(stream, on_connect, on_message, on_disconnect, on_error) {
 
         this.on_connect = on_connect;
         this.on_message = on_message;
         this.on_disconnect = on_disconnect;
+        this.on_error = on_error;
 
         this.webSocket = new ReconnectingWebSocket(stream);
-        this.webSocket.parent = this
 
         this.webSocket.onopen = this.ws_on_connect.bind(this);
         this.webSocket.onmessage = this.ws_on_message.bind(this);
         this.webSocket.onclose = this.ws_on_disconnect.bind(this);
+        this.webSocket.onerror = this.ws_on_error.bind(this);
     }
 
     send(data) {
@@ -215,4 +226,10 @@ class WSStream {
     ws_on_disconnect() {
         this.on_disconnect()
     }
+
+    ws_on_error(error) {
+        console.log(error)
+        this.on_error(error)
+    }
+
 }
