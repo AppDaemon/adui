@@ -214,6 +214,11 @@ class WSStream {
         this.webSocket.send(JSON.stringify(data));
     }
 
+    disconnect()
+    {
+        this.webSocket.close()
+    }
+
     ws_on_connect() {
         this.on_connect()
     }

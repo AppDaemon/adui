@@ -10,8 +10,18 @@ export default class Utils {
         return (thisdate)
     }
 
-    formatArgs(args)
-    {
+    formatFixedLen(cb, len) {
+        let result = ""
+        if (cb.length <= len) {
+            result = cb + " ".repeat(len - cb.length)
+        } else {
+            result = cb.substring(0, len)
+        }
+
+        return result
+    }
+
+    formatArgs(args) {
         let result = ""
         Object.keys(args).forEach((arg) => {
             result += "|" + arg + "=" + args[arg]
@@ -28,13 +38,17 @@ export default class Utils {
         }
     }
 
-    update_entity_table(entity, action, state, table) {
+    update_entity_table(fqentity, action, state, table, copy_function) {
+        // Incoming entity is fully qualified, table entry is not
+        let s = fqentity.split(".")
+        let entity = s[1] + "." + s[2]
         if (action === "add") {
-            table.push(state)
+            table.push(copy_function(state, {}))
         } else if (action === "update") {
             for (let i = 0; i < table.length; i++) {
                 if (table[i].entity_id === entity) {
-                    table[i] = state
+                    copy_function(state, table[i])
+                    break;
                 }
             }
         } else if (action === "delete") {
@@ -42,6 +56,7 @@ export default class Utils {
             for (let i = 0; i < table.length; i++) {
                 if (table[i].entity_id === entity) {
                     index = i
+                    break
                 }
             }
             if (index !== -1) {

@@ -41,16 +41,16 @@ export default {
       thread_headers:
           [
             {text: "ID", value: "entity_id"},
-            {text: "Queue Size", value: "attributes.q"},
-            {text: "Callback", value: "state"},
-            {text: "Last Active", value: "attributes.time_called", formatter: this.$UTILS.formatDate},
-            {text: "Alive", value: "attributes.is_alive", icon:
+            {text: "Queue Size", value: "qsize"},
+            {text: "Callback", value: "callback", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
+            {text: "Last Active", value: "time_called", formatter: this.$UTILS.formatDate},
+            {text: "Alive", value: "is_alive", icon:
                   {
                     true: {icon: "mdi-checkbox-blank-circle", color: "green"},
                     false: {icon: "mdi-checkbox-blank-circle-outline", color: "red"},
                   }
             },
-            {text: "Pinned Apps", value: "attributes.pinned_apps"},
+            {text: "Pinned Apps", value: "pinned_apps"},
           ],
       threads: [],
       subs: []
@@ -63,13 +63,24 @@ export default {
       }))
     }
     this.subs.push(this.$SUBS.add_sub("state", "admin.thread", (entity, action, state) => {
-      this.$UTILS.update_entity_table(entity, action, state, this.threads)
+      this.$UTILS.update_entity_table(entity, action, state, this.threads, this.copy_function)
     }))
   },
   beforeDestroy() {
     this.$SUBS.remove_subs(this.subs)
   },
   methods: {
+        copy_function(state, table_entry)
+    {
+      table_entry.entity_id = state.entity_id
+      table_entry.qsize = state.attributes.q
+      table_entry.callback = state.state
+      table_entry.time_called = state.attributes.time_called
+      table_entry.is_alive = state.attributes.is_alive
+      table_entry.pinned_apps = state.attributes.pinned_apps
+      return(table_entry)
+    }
+
   }
 }
 </script>

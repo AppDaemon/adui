@@ -86,6 +86,16 @@ export default {
         },
       },
   mounted() {
+    let host = window.location.hostname
+    let port = window.location.port
+    let uri = window.location.search.substring(1);
+    let params = new URLSearchParams(uri);
+    if (params.get("host") !== null && (params.get("port") !== null))
+    {
+      host = params.get("host")
+      port = params.get("port")
+    }
+    this.$SUBS.set_host(host, port)
     this.$SUBS.ad_connect(this.need_logon.bind(this), null)
   }
 }

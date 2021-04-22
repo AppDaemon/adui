@@ -19,10 +19,10 @@ export default {
       app_headers:
           [
             {text: "Name", value: "entity_id"},
-            {text: "State", value: "state"},
-            {text: "Callback (Instance)", value: "attributes.instancecallbacks"},
-            {text: "Callback (Lifetime)", value: "attributes.totalcallbacks"},
-            {text: "Arguments", value: "attributes.args", formatter: this.$UTILS.formatArgs},
+            {text: "State", value: "state", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
+            {text: "Callback (Instance)", value: "instance_callbacks"},
+            {text: "Callback (Lifetime)", value: "total_callbacks"},
+            {text: "Arguments", value: "args", formatter: this.$UTILS.formatArgs},
           ],
       apps: [],
       subs: []
@@ -30,13 +30,22 @@ export default {
   },
   mounted() {
     this.subs.push(this.$SUBS.add_sub("state", "admin.app", (entity, action, state) => {
-      this.$UTILS.update_entity_table(entity, action, state, this.apps)
+      this.$UTILS.update_entity_table(entity, action, state, this.apps, this.copy_function)
     }))
   },
   beforeDestroy() {
     this.$SUBS.remove_subs(this.subs)
   },
   methods: {
+    copy_function(state, table_entry)
+    {
+      table_entry.entity_id = state.entity_id
+      table_entry.state = state.state
+      table_entry.instance_callbacks = state.attributes.instancecallbacks
+      table_entry.total_callbacks = state.attributes.totalcallbacks
+      table_entry.args = state.attributes.args
+      return(table_entry)
+    }
   }
 }
 </script>

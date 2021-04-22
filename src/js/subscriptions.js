@@ -3,17 +3,23 @@ import uuid from 'uuid/v4'
 
 export default class Subscriptions {
     constructor() {
-        this.host = "prod.sanctuary.home"
-        this.port = 5151
+        this.host = ""
+        this.port = 0
         this.connected = false
         this.subs = []
         this.state = []
         this.namespace = []
     }
 
-    add_sub(type, spec, callback) {
+    set_host(host, port)
+    {
+        this.host = host
+        this.port = port
+    }
+
+    add_sub(type, spec, callback, copy_function) {
         var handle = uuid()
-        this.subs[handle] = {type: type, spec: spec, callback: callback}
+        this.subs[handle] = {type: type, spec: spec, callback: callback, copyfunction: copy_function}
 
         if (type === "state") {
             // Send initial value if we have it
@@ -68,7 +74,7 @@ export default class Subscriptions {
                         }
                     }
                     if (match) {
-                        subs[key].callback(entity, operation, data)
+                        subs[key].callback(entity, operation, data, sub.copyfunction)
                     }
                 }
             }
@@ -96,8 +102,6 @@ export default class Subscriptions {
     }
 
     on_connect() {
-
-        //console.log("connect")
 
         // Grab state
 
@@ -143,8 +147,7 @@ export default class Subscriptions {
 
     }
 
-    got_event(data) {
-        console.log(data)
+    got_event() {
     }
 
     got_state_update(data) {
