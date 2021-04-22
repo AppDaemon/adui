@@ -2,7 +2,9 @@
   <v-simple-table>
     <tr v-for="(sensor, index) in sensors" v-bind:key="index">
       <th class="text-left font-weight-bold text-sm-body-2">{{ sensor.text }}</th>
-      <td class="text-sm-body-2">{{ sensor.hasOwnProperty('formatter') ? sensor.formatter(sensor.state.state) : sensor.state.state }}</td>
+      <td class="text-sm-body-2">
+        {{ sensor.hasOwnProperty('formatter') ? sensor.formatter(sensor.state.state) : sensor.state.state }}
+      </td>
     </tr>
   </v-simple-table>
 </template>
@@ -16,7 +18,8 @@ export default {
   },
   props:
       {
-        sensors: Array
+        sensors: Array,
+        name: String
       },
   methods: {
     formatDate(date) {

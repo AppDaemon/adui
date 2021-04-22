@@ -1,8 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card flat>
       <EntityTable :headers="app_headers" :items="apps"></EntityTable>
-    </v-card>
   </v-container>
 </template>
 
@@ -18,7 +16,7 @@ export default {
       search: "",
       app_headers:
           [
-            {text: "Name", value: "entity_id"},
+            {text: "Name", value: "name"},
             {text: "State", value: "state", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
             {text: "Callback (Instance)", value: "instance_callbacks"},
             {text: "Callback (Lifetime)", value: "total_callbacks"},
@@ -40,6 +38,7 @@ export default {
     copy_function(state, table_entry)
     {
       table_entry.entity_id = state.entity_id
+      table_entry.name = state.attributes.args.class
       table_entry.state = state.state
       table_entry.instance_callbacks = state.attributes.instancecallbacks
       table_entry.total_callbacks = state.attributes.totalcallbacks

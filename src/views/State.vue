@@ -6,16 +6,16 @@
     <v-tab href="#callbacks">Callbacks</v-tab>
     <v-tabs-items :value="tab">
       <v-tab-item value="apps">
-        <Apps></Apps>
+        <Apps/>
       </v-tab-item>
       <v-tab-item value="entities">
         Entities
       </v-tab-item>
       <v-tab-item value="threads">
-        <Threads></Threads>
+        <Threads/>
       </v-tab-item>
       <v-tab-item value="callbacks">
-        Callbacks
+        <Callbacks/>
       </v-tab-item>
     </v-tabs-items>
   </v-tabs>
@@ -25,12 +25,14 @@
 <script>
 import Threads from "../components/Threads";
 import Apps from "../components/Apps";
+import Callbacks from "../components/Callbacks";
 
 export default {
   title: 'State',
   components: {
     Threads,
-    Apps
+    Apps,
+    Callbacks
   },
   mounted()
   {

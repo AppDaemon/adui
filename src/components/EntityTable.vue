@@ -1,4 +1,6 @@
 <template>
+  <v-card flat>
+    <v-card-title v-if="name" >{{name}}</v-card-title>
   <v-data-table
       :headers="headers"
       :items="items"
@@ -29,6 +31,7 @@
        <v-icon :color="header.icon[value].color" v-bind:key="index">{{ header.icon[value].icon }}</v-icon>
      </template>-->
   </v-data-table>
+    </v-card>
 </template>
 
 <script>
@@ -41,6 +44,7 @@ export default {
     }
   },
   props: {
+    name: String,
     headers: Array,
     items: Array
   },
