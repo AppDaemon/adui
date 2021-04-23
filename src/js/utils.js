@@ -10,12 +10,13 @@ export default class Utils {
         return (thisdate)
     }
 
-    formatFixedLen(cb, len) {
+    formatFixedLen(field, len) {
+        let sfield = String(field)
         let result = ""
-        if (cb.length <= len) {
-            result = cb + " ".repeat(len - cb.length)
+        if (sfield.length <= len) {
+            result = sfield + " ".repeat(len - sfield.length)
         } else {
-            result = cb.substring(0, len)
+            result = sfield.substring(0, len)
         }
 
         return result

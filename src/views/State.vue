@@ -1,6 +1,7 @@
 <template>
   <v-tabs v-model="tab" grow>
     <v-tab href="#apps">Apps</v-tab>
+    <v-tab href="#plugins">Plugins</v-tab>
     <v-tab href="#entities">Entities</v-tab>
     <v-tab href="#threads">Threads</v-tab>
     <v-tab href="#callbacks">Callbacks</v-tab>
@@ -8,8 +9,11 @@
       <v-tab-item value="apps">
         <Apps/>
       </v-tab-item>
+      <v-tab-item value="plugins">
+        Plugins
+      </v-tab-item>
       <v-tab-item value="entities">
-        Entities
+        <Entities/>
       </v-tab-item>
       <v-tab-item value="threads">
         <Threads/>
@@ -26,13 +30,15 @@
 import Threads from "../components/Threads";
 import Apps from "../components/Apps";
 import Callbacks from "../components/Callbacks";
+import Entities from "../components/Entities";
 
 export default {
   title: 'State',
   components: {
     Threads,
     Apps,
-    Callbacks
+    Callbacks,
+    Entities
   },
   mounted()
   {

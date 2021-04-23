@@ -11,8 +11,11 @@ export default class Subscriptions {
         this.namespace = []
     }
 
-    set_host(host, port)
-    {
+    get_namespace() {
+        return this.namespace
+    }
+
+    set_host(host, port) {
         this.host = host
         this.port = port
     }
@@ -64,13 +67,16 @@ export default class Subscriptions {
                     this.subs[key].callback(entity, operation, data)
                 } else if (type === "state") {
                     // need to check spec
-                    let spec = sub.spec.split(".")
-                    let ent = entity.split(".")
-
                     let match = true
-                    for (let i = 0; i < spec.length; i++) {
-                        if (spec[i] !== ent[i]) {
-                            match = false
+                    if (sub.spec !== "*") {
+                        let spec = sub.spec.split(".")
+                        let ent = entity.split(".")
+
+                        match = true
+                        for (let i = 0; i < spec.length; i++) {
+                            if (spec[i] !== ent[i]) {
+                                match = false
+                            }
                         }
                     }
                     if (match) {
