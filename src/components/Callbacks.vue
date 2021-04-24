@@ -51,7 +51,7 @@ export default {
                   }
             },
             {text: "Thread", value: "thread"},
-            {text: "Kwargs", value: "kwargs", formatter: this.$UTILS.formatArgs},
+            {text: "Kwargs", value: "kwargs", args: 1},
           ],
       scheduler_callbacks: [],
       state_headers:
@@ -69,7 +69,7 @@ export default {
                   }
             },
             {text: "Thread", value: "thread"},
-            {text: "Kwargs", value: "kwargs", formatter: this.$UTILS.formatArgs},
+            {text: "Kwargs", value: "kwargs", args: 1},
           ],
       state_callbacks: [],
       event_headers:
@@ -87,8 +87,7 @@ export default {
                   }
             },
             {text: "Thread", value: "thread"},
-            {text: "Kwargs", value: "kwargs", formatter: this.$UTILS.formatArgs},
-
+            {text: "Kwargs", value: "kwargs", args: 1},
           ],
       event_callbacks: [],
       subs: []

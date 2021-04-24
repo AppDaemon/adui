@@ -13,6 +13,7 @@ export default {
   title: "Entities",
   data: function () {
     return {
+      ns: [],
       search: "",
       entity_headers:
           [
@@ -23,21 +24,29 @@ export default {
               }
             },
             {text: "Last Changed", value: "last_changed", formatter: this.$UTILS.formatDate},
-            {text: "Attributes", value: "attributes", formatter: this.$UTILS.formatArgs},
+            {text: "Attributes", value: "attributes", args: 1},
           ],
       entities: [],
       subs: []
     }
   },
   mounted() {
-    this.subs.push(this.$SUBS.add_sub("state", "*", (entity, action, state) => {
-      this.$UTILS.update_entity_table(entity, action, state, this.entities, this.copy_function)
-    }))
+    this.subs.push(this.$SUBS.add_sub("namespace", "*", this.process_namespace))
+    /*this.subs.push(this.$SUBS.add_sub("state", "*", (entity, action, state) => {
+      this.$UTILS.update_entity_table(entity, action, state, this.entities, this.copy_function)*/
   },
   beforeDestroy() {
     this.$SUBS.remove_subs(this.subs)
   },
   methods: {
+    process_namespace(ns, action) {
+      if (action === "add") {
+        this.ns.push(ns)
+        this.subs.push(this.$SUBS.add_sub("state", ns, (entity, action, state) => {
+          this.$UTILS.update_entity_table(entity, action, state, this.entities, this.copy_function)
+        }))
+      }
+    },
     copy_function(state, table_entry) {
       table_entry.entity_id = state.entity_id
       table_entry.state = state.state

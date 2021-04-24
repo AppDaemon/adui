@@ -50,7 +50,7 @@ export default {
                     false: {icon: "mdi-checkbox-blank-circle-outline", color: "red"},
                   }
             },
-            {text: "Pinned Apps", value: "pinned_apps"},
+            {text: "Pinned Apps", value: "pinned_apps", args: 1},
           ],
       threads: [],
       subs: []

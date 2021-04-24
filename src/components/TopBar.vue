@@ -5,51 +5,63 @@
       dark
       height="50"
   >
-    <v-toolbar-title>AppDaemon {{ version }}</v-toolbar-title>
-    <v-spacer></v-spacer>
-    {{ title }}
-    <v-spacer></v-spacer>
-    <template v-if="connected">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon v-bind="attrs" v-on="on">mdi-lan-connect</v-icon>
-        </template>
-        <span>Connected</span>
-      </v-tooltip>
-    </template>
-    <template v-else>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon v-bind="attrs" v-on="on">mdi-lan-disconnect</v-icon>
-        </template>
-        <span>Disconnected</span>
-      </v-tooltip>
-    </template>
+    <v-row align="center">
+      <v-col>
+        <v-layout justify-start>
+          <v-toolbar-title>AppDaemon {{ version }}</v-toolbar-title>
+        </v-layout>
+      </v-col>
+      <v-col justify="center">
+        <v-layout justify-center>
+          {{ title }}
+        </v-layout>
+      </v-col>
+      <v-col>
+        <v-layout justify-end>
+          <template v-if="connected">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-lan-connect</v-icon>
+              </template>
+              <span>Connected</span>
+            </v-tooltip>
+          </template>
+          <template v-else>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-lan-disconnect</v-icon>
+              </template>
+              <span>Disconnected</span>
+            </v-tooltip>
+          </template>
 
-    <v-menu
-        left
-        bottom
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-        >
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
+          <v-menu
+              left
+              bottom
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+              >
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
 
-      <v-list>
-        <v-list-item
-            v-for="entry in menu"
-            :key="entry.option"
-            @click="entry.callback"
-        >
-          <v-list-item-title>{{ entry.option }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+            <v-list>
+              <v-list-item
+                  v-for="entry in menu"
+                  :key="entry.option"
+                  @click="entry.callback"
+              >
+                <v-list-item-title>{{ entry.option }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-layout>
+      </v-col>
+    </v-row>
   </v-app-bar>
 </template>
 
@@ -85,8 +97,7 @@ export default {
     version_change(entity, action, state) {
       this.version = "v" + state.state
     },
-    logout()
-    {
+    logout() {
       this.$SUBS.logout()
     }
   }

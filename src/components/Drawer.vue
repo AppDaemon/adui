@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  name: 'TopBar',
+  name: 'Sidebar',
   data: function () {
     return {
       mini: true,

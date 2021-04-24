@@ -88,7 +88,6 @@ export default class Subscriptions {
     }
 
     ad_connect(need_logon, creds) {
-        //console.log("Connecting")
 
         this.need_logon = need_logon
         let mycreds = ''
