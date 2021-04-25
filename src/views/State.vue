@@ -10,7 +10,7 @@
         <Apps/>
       </v-tab-item>
       <v-tab-item value="plugins">
-        Plugins
+        <Plugins/>
       </v-tab-item>
       <v-tab-item value="entities">
         <Entities/>
@@ -31,10 +31,12 @@ import Threads from "../components/Threads";
 import Apps from "../components/Apps";
 import Callbacks from "../components/Callbacks";
 import Entities from "../components/Entities";
+import Plugins from "@/components/Plugins";
 
 export default {
   title: 'State',
   components: {
+    Plugins,
     Threads,
     Apps,
     Callbacks,
