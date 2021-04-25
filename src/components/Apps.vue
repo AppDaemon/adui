@@ -15,10 +15,10 @@ export default {
     return {
       app_headers:
           [
-            {text: "Name", value: "name"},
+            {text: "Name", value: "name", width: "15%"},
             {text: "State", value: "state", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
-            {text: "Callback (Instance)", value: "instance_callbacks"},
-            {text: "Callback (Lifetime)", value: "total_callbacks"},
+            {text: "Callback (Instance)", value: "instance_callbacks", width: "10%"},
+            {text: "Callback (Lifetime)", value: "total_callbacks", width: "10%"},
             {text: "Arguments", value: "args", args: 1},
           ],
       apps: [],

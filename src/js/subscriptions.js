@@ -11,7 +11,7 @@ export default class Subscriptions {
         this.namespace = []
     }
 
-    get_namespace() {
+    get_namespaces() {
         return this.namespace
     }
 

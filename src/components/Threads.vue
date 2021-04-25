@@ -40,11 +40,11 @@ export default {
           ],
       thread_headers:
           [
-            {text: "ID", value: "entity_id"},
-            {text: "Queue Size", value: "qsize"},
+            {text: "ID", value: "entity_id", width: "10%"},
+            {text: "Queue Size", value: "qsize", width: "10%"},
             {text: "Callback", value: "callback", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
-            {text: "Last Active", value: "time_called", formatter: this.$UTILS.formatDate},
-            {text: "Alive", value: "is_alive", icon:
+            {text: "Last Active", value: "time_called", width: "15%", formatter: this.$UTILS.formatDate},
+            {text: "Alive", value: "is_alive", width: "10%", icon:
                   {
                     true: {icon: "mdi-checkbox-blank-circle", color: "green"},
                     false: {icon: "mdi-checkbox-blank-circle-outline", color: "red"},
