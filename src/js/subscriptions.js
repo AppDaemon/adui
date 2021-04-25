@@ -152,7 +152,43 @@ export default class Subscriptions {
 
     }
 
-    got_event() {
+    got_event(data) {
+        if (data.data.event_type === "__AD_ENTITY_ADDED") {
+            // Add Local Copy
+            let ns = data.data.namespace
+            let entity = data.data.data.entity_id
+            let state = data.data.data.state
+            this.state[ns][entity] = state
+
+            // Call Subs
+
+            let fqentity = ns + "." + entity
+            this.process_callback(this.subs, "state", "add", fqentity, state)
+
+
+        } else if (data.data.event_type === "__AD_ENTITY_REMOVED") {
+            // Remove Local Copy
+            let ns = data.data.namespace
+            let entity = data.data.data.entity_id
+            let state = data.data.data.state
+
+            let index = -1
+            for (let i = 0; i < this.state[ns].length; i++) {
+                if (this.state[ns][i].entity_id === entity) {
+                    index = i
+                    break
+                }
+            }
+            if (index !== -1) {
+                this.state[ns].splice(index, 1)
+            }
+
+            // Call Subs
+
+            let fqentity = ns + "." + entity
+            this.process_callback(this.subs, "state", "remove", fqentity, state)
+
+        }
     }
 
     got_state_update(data) {

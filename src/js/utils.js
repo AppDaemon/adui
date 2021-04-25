@@ -53,7 +53,7 @@ export default class Utils {
                     break;
                 }
             }
-        } else if (action === "delete") {
+        } else if (action === "remove") {
             let index = -1
             for (let i = 0; i < table.length; i++) {
                 if (table[i].entity_id === entity) {
