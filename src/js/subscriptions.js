@@ -169,8 +169,6 @@ export default class Subscriptions {
         } else if (data.data.event_type === "__AD_ENTITY_REMOVED") {
             // Remove Local Copy
 
-            console.log(this.state[ns])
-
             delete this.state[ns][entity]
 
             // Call Subs

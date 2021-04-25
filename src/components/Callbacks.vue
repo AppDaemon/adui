@@ -38,55 +38,55 @@ export default {
           ],
       scheduler_headers:
           [
-            {text: "App", value: "app"},
-            {text: "Execution Time", value: "execution", formatter: this.$UTILS.formatDate},
-            {text: "Repeat", value: "repeat"},
-            {text: "Callback", value: "callback"},
-            {text: "Fired", value: "fired"},
-            {text: "Executed", value: "executed"},
-            {text: "Pinned", value: "pinned", icon:
+            {text: "App", value: "app", width: "10%"},
+            {text: "Execution Time", value: "execution", width: "15%", formatter: this.$UTILS.formatDate},
+            {text: "Repeat", value: "repeat", width: "10%"},
+            {text: "Callback", value: "callback", width: "10%"},
+            {text: "Fired", value: "fired", width: "8%"},
+            {text: "Executed", value: "executed", width: "8%"},
+            {text: "Pinned", value: "pinned", width: "8%", icon:
                   {
                     true: {icon: "mdi-check", color: "black"},
                     false: {icon: "", color: "black"},
                   }
             },
-            {text: "Thread", value: "thread"},
+            {text: "Thread", value: "thread", width: "8%"},
             {text: "Kwargs", value: "kwargs", args: 1},
           ],
       scheduler_callbacks: [],
       state_headers:
           [
-            {text: "App", value: "app"},
-            {text: "Last Executed", value: "last_executed", formatter: this.$UTILS.formatDate},
-            {text: "Entity", value: "entity"},
-            {text: "Callback", value: "callback"},
-            {text: "Fired", value: "fired"},
-            {text: "Executed", value: "executed"},
-            {text: "Pinned", value: "pinned", icon:
+            {text: "App", value: "app", width: "10%"},
+            {text: "Last Executed", value: "last_executed", width: "15%", formatter: this.$UTILS.formatDate},
+            {text: "Entity", value: "entity", width: "10%"},
+            {text: "Callback", value: "callback", width: "10%"},
+            {text: "Fired", value: "fired", width: "8%"},
+            {text: "Executed", value: "executed", width: "8%"},
+            {text: "Pinned", value: "pinned", width: "8%", icon:
                   {
                     true: {icon: "mdi-check", color: "black"},
                     false: {icon: "", color: "black"},
                   }
             },
-            {text: "Thread", value: "thread"},
+            {text: "Thread", value: "thread", width: "8%"},
             {text: "Kwargs", value: "kwargs", args: 1},
           ],
       state_callbacks: [],
       event_headers:
           [
-            {text: "App", value: "app"},
-            {text: "Last Executed", value: "last_executed", formatter: this.$UTILS.formatDate},
-            {text: "Event Name", value: "event"},
-            {text: "Callback", value: "callback"},
-            {text: "Fired", value: "fired"},
-            {text: "Executed", value: "executed"},
-            {text: "Pinned", value: "pinned", icon:
+            {text: "App", value: "app", width: "10%"},
+            {text: "Last Executed", value: "last_executed", width: "15%", formatter: this.$UTILS.formatDate},
+            {text: "Event Name", value: "event", width: "10%"},
+            {text: "Callback", value: "callback", width: "10%"},
+            {text: "Fired", value: "fired", width: "8%"},
+            {text: "Executed", value: "executed", width: "8%"},
+            {text: "Pinned", value: "pinned", width: "8%", icon:
                   {
                     true: {icon: "mdi-check", color: "black"},
                     false: {icon: "", color: "black"},
                   }
             },
-            {text: "Thread", value: "thread"},
+            {text: "Thread", value: "thread", width: "8%"},
             {text: "Kwargs", value: "kwargs", args: 1},
           ],
       event_callbacks: [],
