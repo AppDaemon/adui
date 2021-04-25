@@ -1,6 +1,12 @@
 <template>
   <v-container fluid>
-    <EntityTable :headers="entity_headers" :items="entities"></EntityTable>
+    <EntityTable
+        filterTitle="Namespace"
+        filterDefault="admin"
+        :filterKeys="ns"
+        :headers="entity_headers"
+        :items="entities"></EntityTable
+    >
   </v-container>
 </template>
 
@@ -15,6 +21,7 @@ export default {
     return {
       ns: [],
       search: "",
+
       entity_headers:
           [
             {text: "Name", value: "entity_id"},
@@ -47,8 +54,9 @@ export default {
         }))
       }
     },
-    copy_function(state, table_entry) {
+    copy_function(ns, state, table_entry) {
       table_entry.entity_id = state.entity_id
+      table_entry.ns = ns
       table_entry.state = state.state
       table_entry.last_changed = state.last_changed
       table_entry.attributes = state.attributes

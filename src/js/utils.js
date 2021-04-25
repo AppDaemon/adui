@@ -42,13 +42,14 @@ export default class Utils {
     update_entity_table(fqentity, action, state, table, copy_function) {
         // Incoming entity is fully qualified, table entry is not
         let s = fqentity.split(".")
+        let ns = s[0]
         let entity = s[1] + "." + s[2]
         if (action === "add") {
-            table.push(copy_function(state, {}))
+            table.push(copy_function(ns, state, {}))
         } else if (action === "update") {
             for (let i = 0; i < table.length; i++) {
                 if (table[i].entity_id === entity) {
-                    copy_function(state, table[i])
+                    copy_function(ns, state, table[i])
                     break;
                 }
             }

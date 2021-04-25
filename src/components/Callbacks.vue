@@ -113,7 +113,7 @@ export default {
     this.$SUBS.remove_subs(this.subs)
   },
   methods: {
-    scheduler_copy_function(state, table_entry) {
+    scheduler_copy_function(ns, state, table_entry) {
       table_entry.entity_id = state.entity_id
       table_entry.app = state.attributes.app
       table_entry.execution = state.attributes.execution_time
@@ -126,7 +126,7 @@ export default {
       table_entry.kwargs = state.attributes.kwargs
       return (table_entry)
     },
-    state_copy_function(state, table_entry) {
+    state_copy_function(ns, state, table_entry) {
       table_entry.entity_id = state.entity_id
       table_entry.app = state.attributes.app
       table_entry.last_executed = state.last_changed,
@@ -140,7 +140,7 @@ export default {
       return (table_entry)
     }
     ,
-    event_copy_function(state, table_entry) {
+    event_copy_function(ns, state, table_entry) {
       table_entry.entity_id = state.entity_id
       table_entry.app = state.attributes.app
       table_entry.last_executed = state.last_changed,

@@ -34,7 +34,7 @@ export default {
     this.$SUBS.remove_subs(this.subs)
   },
   methods: {
-    copy_function(state, table_entry)
+    copy_function(ns, state, table_entry)
     {
       table_entry.entity_id = state.entity_id
       table_entry.name = state.attributes.args.class
