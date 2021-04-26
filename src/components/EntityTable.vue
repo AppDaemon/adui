@@ -1,7 +1,8 @@
 <template>
   <v-card flat>
-    <v-card-title v-if="name">{{ name }}</v-card-title>
+<!--    <v-card-title v-if="name">{{ name }}</v-card-title>-->
     <v-data-table
+        :caption="name"
         :headers="headers"
         :items="filteredItems"
         :items-per-page="100"
