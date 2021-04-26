@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+<div>
     <v-app-bar
         app
         color="indigo"
@@ -108,7 +108,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-layout>
+  </div>
 </template>
 
 <script>
