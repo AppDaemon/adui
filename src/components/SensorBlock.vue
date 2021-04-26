@@ -1,12 +1,24 @@
 <template>
-  <v-simple-table>
-    <tr v-for="(sensor, index) in sensors" v-bind:key="index">
-      <th class="text-left font-weight-bold text-sm-body-2">{{ sensor.text }}</th>
-      <td class="text-sm-body-2">
-        {{ sensor.hasOwnProperty('formatter') ? sensor.formatter(sensor.state.state) : sensor.state.state }}
-      </td>
-    </tr>
-  </v-simple-table>
+  <v-data-iterator
+      :items="sensors"
+      item-key="name"
+      :items-per-page="4"
+      hide-default-footer
+      class="mx-auto"
+  >
+    <template v-slot:default="{ items }">
+      <v-row>
+        <v-col v-for="(sensor, index) in items" v-bind:key="index">
+          <v-card outlined min-height="50">
+            <v-card-text class="black--text">
+              <span class="font-weight-bold">{{ sensor.text }}:</span>
+              {{ sensor.hasOwnProperty('formatter') ? sensor.formatter(sensor.state.state) : sensor.state.state }}
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+  </v-data-iterator>
 </template>
 
 <script>

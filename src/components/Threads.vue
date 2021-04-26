@@ -1,9 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card flat max-width="400" class="ma-3">
-      <SensorBlock :sensors="this.sensors"></SensorBlock>
-    </v-card>
-    <v-divider></v-divider>
+    <SensorBlock :sensors="this.sensors"></SensorBlock>
     <v-card flat>
       <EntityTable :headers="thread_headers" :items="threads"></EntityTable>
     </v-card>
@@ -42,9 +39,14 @@ export default {
           [
             {text: "ID", value: "entity_id", width: "10%"},
             {text: "Queue Size", value: "qsize", width: "10%"},
-            {text: "Callback", value: "callback", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
+            {
+              text: "Callback", value: "callback", width: "15%", formatter: (cb) => {
+                return this.$UTILS.formatFixedLen(cb, 30)
+              }
+            },
             {text: "Last Active", value: "time_called", width: "15%", formatter: this.$UTILS.formatDate},
-            {text: "Alive", value: "is_alive", width: "10%", icon:
+            {
+              text: "Alive", value: "is_alive", width: "10%", icon:
                   {
                     true: {icon: "mdi-checkbox-blank-circle", color: "green"},
                     false: {icon: "mdi-checkbox-blank-circle-outline", color: "red"},
@@ -70,15 +72,14 @@ export default {
     this.$SUBS.remove_subs(this.subs)
   },
   methods: {
-        copy_function(ns, state, table_entry)
-    {
+    copy_function(ns, state, table_entry) {
       table_entry.entity_id = state.entity_id
       table_entry.qsize = state.attributes.q
       table_entry.callback = state.state
       table_entry.time_called = state.attributes.time_called
       table_entry.is_alive = state.attributes.is_alive
       table_entry.pinned_apps = state.attributes.pinned_apps
-      return(table_entry)
+      return (table_entry)
     }
 
   }

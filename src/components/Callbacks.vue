@@ -1,9 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card flat max-width="400" class="ma-3">
-      <SensorBlock :sensors="this.sensors"></SensorBlock>
-    </v-card>
-    <v-divider></v-divider>
+    <SensorBlock :sensors="this.sensors"></SensorBlock>
     <EntityTable name="Scheduler Callbacks" :headers="scheduler_headers" :items="scheduler_callbacks"></EntityTable>
     <EntityTable name="State Callbacks" :headers="state_headers" :items="state_callbacks"></EntityTable>
     <EntityTable name="Event Callbacks" :headers="event_headers" :items="event_callbacks"></EntityTable>
@@ -44,7 +41,8 @@ export default {
             {text: "Callback", value: "callback", width: "10%"},
             {text: "Fired", value: "fired", width: "8%"},
             {text: "Executed", value: "executed", width: "8%"},
-            {text: "Pinned", value: "pinned", width: "8%", icon:
+            {
+              text: "Pinned", value: "pinned", width: "8%", icon:
                   {
                     true: {icon: "mdi-check", color: "black"},
                     false: {icon: "", color: "black"},
@@ -62,7 +60,8 @@ export default {
             {text: "Callback", value: "callback", width: "10%"},
             {text: "Fired", value: "fired", width: "8%"},
             {text: "Executed", value: "executed", width: "8%"},
-            {text: "Pinned", value: "pinned", width: "8%", icon:
+            {
+              text: "Pinned", value: "pinned", width: "8%", icon:
                   {
                     true: {icon: "mdi-check", color: "black"},
                     false: {icon: "", color: "black"},
@@ -80,7 +79,8 @@ export default {
             {text: "Callback", value: "callback", width: "10%"},
             {text: "Fired", value: "fired", width: "8%"},
             {text: "Executed", value: "executed", width: "8%"},
-            {text: "Pinned", value: "pinned", width: "8%", icon:
+            {
+              text: "Pinned", value: "pinned", width: "8%", icon:
                   {
                     true: {icon: "mdi-check", color: "black"},
                     false: {icon: "", color: "black"},
@@ -130,7 +130,7 @@ export default {
       table_entry.entity_id = state.entity_id
       table_entry.app = state.attributes.app
       table_entry.last_executed = state.last_changed,
-      table_entry.entity = state.attributes.listened_entity
+          table_entry.entity = state.attributes.listened_entity
       table_entry.callback = state.attributes.function
       table_entry.fired = state.attributes.fired
       table_entry.executed = state.attributes.executed
@@ -144,7 +144,7 @@ export default {
       table_entry.entity_id = state.entity_id
       table_entry.app = state.attributes.app
       table_entry.last_executed = state.last_changed,
-      table_entry.event = state.attributes.event_name
+          table_entry.event = state.attributes.event_name
       table_entry.callback = state.attributes.function
       table_entry.fired = state.attributes.fired
       table_entry.executed = state.attributes.executed
