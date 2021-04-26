@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <v-app-bar
         app
         color="indigo"

@@ -21,15 +21,15 @@ export default {
       sensors:
           [
             {text: "Total Callbacks Fired", entity: "admin.sensor.callbacks_total_executed", state: {state: null}},
-            {
-              text: "Average Callbacks/s Fired",
-              entity: "admin.sensor.callbacks_average_executed",
-              state: {state: null}
-            },
             {text: "Total Callbacks Executed", entity: "admin.sensor.callbacks_total_fired", state: {state: null}},
             {
               text: "Average Callbacks/s Executed",
               entity: "admin.sensor.callbacks_average_fired",
+              state: {state: null}
+            },
+            {
+              text: "Average Callbacks/s Fired",
+              entity: "admin.sensor.callbacks_average_executed",
               state: {state: null}
             },
           ],
