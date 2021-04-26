@@ -70,13 +70,32 @@
         max-width="600px"
     >
       <v-card>
-        <v-card-title>
-          <span class="headline">About AppDaemon</span>
+        <v-card-title class="headline grey lighten-2">
+          <span>About AppDaemon</span>
         </v-card-title>
-        <v-card-text class="black--text">
-              AppDaemon
-              Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
-        </v-card-text>
+        <v-layout>
+          <v-row>
+            <v-col>
+              <v-img height="50" width="50" src="/appdaemon.png" class="ma-5"></v-img>
+            </v-col>
+            <v-col>
+              <v-card-text class="black--text">
+                AppDaemon
+              </v-card-text>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-card-text class="black--text">
+                Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a
+                  href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a
+                  href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC
+                3.0
+                BY</a>
+              </v-card-text>
+            </v-col>
+          </v-row>
+        </v-layout>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -129,8 +148,7 @@ export default {
     logout() {
       this.$SUBS.logout()
     },
-    show_about()
-    {
+    show_about() {
       this.about = true
     }
   }
