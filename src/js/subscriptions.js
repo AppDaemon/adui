@@ -82,6 +82,8 @@ export default class Subscriptions {
                     if (match) {
                         subs[key].callback(entity, operation, data, sub.copyfunction)
                     }
+                } else if (type === "event") {
+                    this.subs[key].callback(data)
                 }
             }
         })
@@ -176,6 +178,7 @@ export default class Subscriptions {
             this.process_callback(this.subs, "state", "remove", fqentity, state)
 
         }
+        this.process_callback(this.subs, "event", "", "", data.data)
     }
 
     got_state_update(data) {

@@ -21,9 +21,9 @@ export default {
       sensors:
           [
             {text: "Current Busy", entity: "admin.sensor.threads_current_busy", state: {state: null}},
-            {text: "Maximum Busy", entity: "admin.sensor.threads_max_busy", state: {state: null}},
+            {text: "Max Busy", entity: "admin.sensor.threads_max_busy", state: {state: null}},
             {
-              text: "Maximum Busy Time",
+              text: "Max Busy Time",
               entity: "admin.sensor.threads_max_busy_time",
               state: {state: null},
               formatter: this.$UTILS.formatDate
