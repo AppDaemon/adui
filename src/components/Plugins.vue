@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-      <EntityTable :headers="plugin_headers" :items="plugins"></EntityTable>
+      <EntityTable name="Plugins" :headers="plugin_headers" :items="plugins"></EntityTable>
   </v-container>
 </template>
 

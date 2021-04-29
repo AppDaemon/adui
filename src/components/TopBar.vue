@@ -14,7 +14,9 @@
         </v-col>
         <v-col justify="center">
           <v-layout justify-center>
-            {{ title }}
+            <v-card-title>
+              {{ title }}
+            </v-card-title>
           </v-layout>
         </v-col>
         <v-col>

@@ -1,9 +1,12 @@
 <template>
   <v-container fluid>
-    <SensorBlock :sensors="this.sensors"></SensorBlock>
-    <EntityTable name="Scheduler Callbacks" :headers="scheduler_headers" :items="scheduler_callbacks"></EntityTable>
-    <EntityTable name="State Callbacks" :headers="state_headers" :items="state_callbacks"></EntityTable>
-    <EntityTable name="Event Callbacks" :headers="event_headers" :items="event_callbacks"></EntityTable>
+    <SensorBlock class="py-5" :sensors="this.sensors"></SensorBlock>
+    <v-divider></v-divider>
+    <EntityTable class="py-5" name="Scheduler Callbacks" :headers="scheduler_headers" :items="scheduler_callbacks"></EntityTable>
+    <v-divider></v-divider>
+    <EntityTable class="py-5" name="State Callbacks" :headers="state_headers" :items="state_callbacks"></EntityTable>
+    <v-divider></v-divider>
+    <EntityTable class="py-5" name="Event Callbacks" :headers="event_headers" :items="event_callbacks"></EntityTable>
   </v-container>
 </template>
 

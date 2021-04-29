@@ -1,26 +1,29 @@
 <template>
-  <v-card flat>
-<!--    <v-card-title v-if="name">{{ name }}</v-card-title>-->
+  <v-container fluid>
+    <!--    <v-card-title v-if="name">{{ name }}</v-card-title>-->
     <v-data-table
-        :caption="name"
         :headers="headers"
         :items="filteredItems"
         :items-per-page="100"
         dense
         :search="search"
         :sort-by="headers[0].value"
+        hide-default-footer
+        disable-pagination
     >
       <template v-slot:top>
         <v-layout>
           <v-row>
             <v-col>
-              <v-select  v-if="filterTitle"
-                  :label="filterTitle"
-                  :items="filterKeys"
-                  v-model="filterValue"
+              <v-select v-if="filterTitle"
+                        :label="filterTitle"
+                        :items="filterKeys"
+                        v-model="filterValue"
               ></v-select>
             </v-col>
-            <v-spacer></v-spacer>
+            <v-col>
+              <v-card-title class="justify-center">{{ name }}</v-card-title>
+            </v-col>
             <v-col>
               <v-text-field
                   prepend-icon="mdi-magnify"
@@ -48,7 +51,7 @@
       </span>
       </template>
     </v-data-table>
-  </v-card>
+  </v-container>
 </template>
 
 <script>

@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
     <EntityTable
+        name="Entities"
         filterTitle="Namespace"
         filterDefault="admin"
         :filterKeys="ns"

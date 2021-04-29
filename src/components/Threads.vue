@@ -1,9 +1,8 @@
 <template>
   <v-container fluid>
-    <SensorBlock :sensors="this.sensors"></SensorBlock>
-    <v-card flat>
-      <EntityTable :headers="thread_headers" :items="threads"></EntityTable>
-    </v-card>
+    <SensorBlock class="py-5" :sensors="this.sensors"></SensorBlock>
+    <v-divider></v-divider>
+    <EntityTable name="Threads" :headers="thread_headers" :items="threads"></EntityTable>
   </v-container>
 </template>
 

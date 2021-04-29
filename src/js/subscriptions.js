@@ -9,6 +9,7 @@ export default class Subscriptions {
         this.subs = []
         this.state = []
         this.namespace = []
+        this.events = []
     }
 
     get_namespaces() {
@@ -33,6 +34,13 @@ export default class Subscriptions {
                     this.process_callback([this.subs[handle]], "state", "add", this.fqentity(ns, entity), this.state[ns][entity])
                 })
             })
+        }
+        if (type === "event")
+        {
+            // Send all events we have
+            for (let i=0;i<this.events.length;i++) {
+                this.process_callback([this.subs[handle]], "event", "", "", this.events[i])
+            }
         }
         return handle
     }
@@ -83,7 +91,7 @@ export default class Subscriptions {
                         subs[key].callback(entity, operation, data, sub.copyfunction)
                     }
                 } else if (type === "event") {
-                    this.subs[key].callback(data)
+                    subs[key].callback(data)
                 }
             }
         })
@@ -158,6 +166,10 @@ export default class Subscriptions {
         let entity = data.data.data.entity_id
         let state = data.data.data.state
         let fqentity = ns + "." + entity
+        if (this.events.length >= 1000) {
+            this.events.pop()
+        }
+        this.events.unshift(data.data)
 
         if (data.data.event_type === "__AD_ENTITY_ADDED") {
 
