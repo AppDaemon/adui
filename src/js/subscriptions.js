@@ -38,7 +38,7 @@ export default class Subscriptions {
         if (type === "event")
         {
             // Send all events we have
-            for (let i=0;i<this.events.length;i++) {
+            for (let i=this.events.length - 1;i>=0;i--) {
                 this.process_callback([this.subs[handle]], "event", "", "", this.events[i])
             }
         }
