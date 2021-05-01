@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     process_event(data) {
-      if (this.items.length >= 1000)
+      if (this.items.length >= this.$SUBS.MAX_EVENTS)
       {
         this.items.pop()
       }

@@ -2,6 +2,7 @@ import Stream from './stream.js'
 import uuid from 'uuid/v4'
 
 export default class Subscriptions {
+
     constructor() {
         this.host = ""
         this.port = 0
@@ -10,6 +11,12 @@ export default class Subscriptions {
         this.state = []
         this.namespace = []
         this.events = []
+        this.max_events = 1000
+    }
+
+    get MAX_EVENTS()
+    {
+        return this.max_events
     }
 
     get_namespaces() {
@@ -166,7 +173,7 @@ export default class Subscriptions {
         let entity = data.data.data.entity_id
         let state = data.data.data.state
         let fqentity = ns + "." + entity
-        if (this.events.length >= 1000) {
+        if (this.events.length >= this.max_events) {
             this.events.pop()
         }
         this.events.unshift(data.data)
