@@ -75,19 +75,19 @@
         <v-card-title class="headline grey lighten-2">
           <span>About AppDaemon</span>
         </v-card-title>
-        <v-layout>
+        <v-container>
           <v-row>
-            <v-col>
-              <v-img height="50" width="50" src="/appdaemon.png" class="ma-5"></v-img>
+            <v-col cols="4">
+              <v-img height="50" width="50" src="appdaemon.png" class="ma-5"></v-img>
             </v-col>
-            <v-col>
-              <v-card-text class="black--text">
+            <v-col cols="8">
+              <v-card-title class="black--text">
                 AppDaemon
-              </v-card-text>
+              </v-card-title>
             </v-col>
           </v-row>
           <v-row>
-            <v-col>
+            <v-col cols="12">
               <v-card-text class="black--text">
                 Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a
                   href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a
@@ -97,7 +97,7 @@
               </v-card-text>
             </v-col>
           </v-row>
-        </v-layout>
+        </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn

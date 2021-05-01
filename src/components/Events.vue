@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-container fluid>
     <v-data-table
         :headers="headers"
         :items="items"
@@ -32,7 +32,7 @@
       </template>
 
     </v-data-table>
-  </v-layout>
+  </v-container>
 </template>
 
 
