@@ -12,11 +12,17 @@ export default class Subscriptions {
         this.namespace = []
         this.events = []
         this.max_events = 1000
+        this.max_logs = 1000
     }
 
     get MAX_EVENTS()
     {
         return this.max_events
+    }
+
+    get MAX_LOGS()
+    {
+        return this.max_logs
     }
 
     get_namespaces() {
