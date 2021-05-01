@@ -6,65 +6,62 @@
         dark
         height="50"
     >
-      <v-row align="center">
-        <v-col>
-          <v-layout justify-start>
+      <v-container fluid class="ma-0 pa-0">
+        <v-row no-gutters align="center">
+          <v-col>
             <v-toolbar-title>AppDaemon {{ version }}</v-toolbar-title>
-          </v-layout>
-        </v-col>
-        <v-col justify="center">
-          <v-layout justify-center>
-            <v-card-title>
+          </v-col>
+          <v-col>
+            <v-card-title class="justify-center">
               {{ title }}
             </v-card-title>
-          </v-layout>
-        </v-col>
-        <v-col>
-          <v-layout justify-end>
-            <template v-if="connected">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon v-bind="attrs" v-on="on">mdi-lan-connect</v-icon>
-                </template>
-                <span>Connected</span>
-              </v-tooltip>
-            </template>
-            <template v-else>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon v-bind="attrs" v-on="on">mdi-lan-disconnect</v-icon>
-                </template>
-                <span>Disconnected</span>
-              </v-tooltip>
-            </template>
-
-            <v-menu
-                left
-                bottom
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    icon
-                    v-bind="attrs"
-                    v-on="on"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
+          </v-col>
+          <v-col>
+            <v-card-title class="justify-end">
+              <template v-if="connected">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on">mdi-lan-connect</v-icon>
+                  </template>
+                  <span>Connected</span>
+                </v-tooltip>
               </template>
+              <template v-else>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on">mdi-lan-disconnect</v-icon>
+                  </template>
+                  <span>Disconnected</span>
+                </v-tooltip>
+              </template>
+              <v-menu
+                  left
+                  bottom
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                  >
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
 
-              <v-list>
-                <v-list-item
-                    v-for="entry in menu"
-                    :key="entry.option"
-                    @click="entry.callback"
-                >
-                  <v-list-item-title>{{ entry.option }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-layout>
-        </v-col>
-      </v-row>
+                <v-list>
+                  <v-list-item
+                      v-for="entry in menu"
+                      :key="entry.option"
+                      @click="entry.callback"
+                  >
+                    <v-list-item-title>{{ entry.option }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-card-title>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-app-bar>
     <v-dialog
         v-model="about"

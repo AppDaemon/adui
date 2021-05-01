@@ -15,13 +15,11 @@ export default class Subscriptions {
         this.max_logs = 1000
     }
 
-    get MAX_EVENTS()
-    {
+    get MAX_EVENTS() {
         return this.max_events
     }
 
-    get MAX_LOGS()
-    {
+    get MAX_LOGS() {
         return this.max_logs
     }
 
@@ -48,10 +46,9 @@ export default class Subscriptions {
                 })
             })
         }
-        if (type === "event")
-        {
+        if (type === "event") {
             // Send all events we have
-            for (let i=this.events.length - 1;i>=0;i--) {
+            for (let i = this.events.length - 1; i >= 0; i--) {
                 this.process_callback([this.subs[handle]], "event", "", "", this.events[i])
             }
         }
@@ -179,6 +176,7 @@ export default class Subscriptions {
         let entity = data.data.data.entity_id
         let state = data.data.data.state
         let fqentity = ns + "." + entity
+        data.data.time_received = new Date
         if (this.events.length >= this.max_events) {
             this.events.pop()
         }

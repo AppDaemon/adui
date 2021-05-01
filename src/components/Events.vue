@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-data-table
         :headers="headers"
-        :items="items"
+        :items="filteredItems"
         disable-pagination
         fixed-header
         hide-default-footer
@@ -13,12 +13,19 @@
       <template v-slot:item.data="{ item }">
         <json-viewer :value="JSON.stringify(item)"></json-viewer>
       </template>
-      <template v-slot:item.data.metadata.time_fired="{ item }">
-        {{new Date(item.data.metadata.time_fired).toLocaleString()}}
+      <template v-slot:item.time_received="{ item }">
+        {{ item.time_received.toLocaleString() }}
       </template>
-            <template v-slot:top>
-        <v-layout>
+      <template v-slot:top>
+        <v-container>
           <v-row>
+            <v-col>
+              <v-select
+                  label="Namespace"
+                  :items="ns"
+                  v-model="filterValue"
+              ></v-select>
+            </v-col>
             <v-spacer></v-spacer>
             <v-col>
               <v-text-field
@@ -28,7 +35,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-        </v-layout>
+        </v-container>
       </template>
 
     </v-data-table>
@@ -47,31 +54,49 @@ export default {
     return {
       search: null,
       headers:
-      [
-          {text: "Event Type", value: "event_type", width: "10%"},
-          {text: "Namespace", value: "namespace", width: "10%"},
-          {text: "Time Fired", value: "data.metadata.time_fired", width: "15%"},
-          {text: "Event Data", value: "data"},
-      ],
+          [
+            {text: "Event Type", value: "event_type", width: "10%"},
+            {text: "Namespace", value: "namespace", width: "10%"},
+            {text: "Time Received", value: "time_received", width: "15%"},
+            {text: "Event Data", value: "data"},
+          ],
       items: [],
-      subs: []
+      subs: [],
+      ns: [],
+      filterValue: "admin"
     }
   },
   mounted() {
     // Subscribe to events namespace additions
+    this.ns = this.$SUBS.get_namespaces()
     this.subs.push(this.$SUBS.add_sub("event", "*", this.process_event))
+    // Subscribe to any namespace additions
+    this.subs.push(this.$SUBS.add_sub("namespace", "*", this.process_namespace))
+
   },
   beforeDestroy() {
     this.$SUBS.remove_subs(this.subs)
   },
+  computed: {
+    filteredItems() {
+      return this.items.filter((i) => {
+        return !this.filterValue || (i.namespace === this.filterValue);
+      })
+    }
+  },
   methods: {
     process_event(data) {
-      if (this.items.length >= this.$SUBS.MAX_EVENTS)
-      {
+      if (this.items.length >= this.$SUBS.MAX_EVENTS) {
         this.items.pop()
       }
       this.items.unshift(data)
     },
+    process_namespace(ns, action) {
+      if (action === "add") {
+        this.ns.push(ns)
+      }
+    },
+
   }
 }
 </script>

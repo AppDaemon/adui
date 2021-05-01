@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-layout>
+    <v-container>
     <span v-if="argcount === 0">
       None
     </span>
@@ -12,7 +12,7 @@
       <v-btn @click="args_dialog = true" x-small elevation="0">...</v-btn>
       &nbsp;}
     </span>
-    </v-layout>
+    </v-container>
     <div class="text-center">
       <v-dialog
           v-model="args_dialog"

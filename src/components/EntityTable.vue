@@ -12,7 +12,7 @@
         disable-pagination
     >
       <template v-slot:top>
-        <v-layout>
+        <v-container>
           <v-row>
             <v-col>
               <v-select v-if="filterTitle"
@@ -32,7 +32,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-        </v-layout>
+        </v-container>
       </template>
       <template v-for="(header, index) in headers.filter((header) =>
     header.hasOwnProperty('formatter') ||
