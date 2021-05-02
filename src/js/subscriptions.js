@@ -11,6 +11,8 @@ export default class Subscriptions {
         this.state = []
         this.namespace = []
         this.events = []
+        this.lognames = []
+        this.logs = []
         this.max_events = 1000
         this.max_logs = 1000
     }
@@ -132,6 +134,10 @@ export default class Subscriptions {
 
         this.stream.get_state('*', '*', this.got_initial_state.bind(this));
 
+        // Grab recent logfiles
+
+        this.stream.get_logs(this.got_logs.bind(this))
+
         // subscribe to all events
 
         this.stream.listen_event('*', '*', this.got_event.bind(this));
@@ -149,6 +155,19 @@ export default class Subscriptions {
 
     on_message() {
         //console.log("message")
+    }
+
+    got_logs(data) {
+        // Store locally in flattened array
+
+        Object.keys(data.data).forEach((log) => {
+            this.lognames.push(log)
+            this.process_callback(this.subs, "log", "add", log)
+            for (let i = 0; i < data.data[log].lines; i++) {
+                this.logs.push({log: log, line: data.data[log].lines[i]})
+                this.process_callback(this.subs, "log", "update", log, data.data[log].lines[i])
+            }
+        })
     }
 
     got_initial_state(data) {

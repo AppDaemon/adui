@@ -192,6 +192,15 @@ export default class Stream {
 
         this.send(request, callback)
     }
+
+    get_logs(callback) {
+        var request = {
+            request_type: "get_logs",
+            data: {}
+        };
+
+        this.send(request, callback)
+    }
 }
 
 class WSStream {
