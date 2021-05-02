@@ -183,11 +183,11 @@ export default class Subscriptions {
                 if (current_log.length >= this.max_logs) {
                     current_log.pop()
                 }
-                current_log.unshift(log_entry)
+                current_log.push(log_entry)
             }
             this.logs = this.logs.concat(current_log)
         })
-        for (let i = 0; i < this.logs.length; i++) {
+        for (let i = this.logs.length - 1; i >= 0; i--) {
             this.process_callback(this.subs, "log", "update", "", this.logs[i])
         }
 
