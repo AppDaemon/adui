@@ -77,10 +77,10 @@ export default {
     process_log(action, data) {
       //console.log(action, data)
       if (action === "update") {
-        if (this.items.length >= this.$SUBS.MAX_LOGS) {
+        if (this.items.length >= (this.$SUBS.MAX_LOGS * this.log_names.length)) {
           this.items.pop()
         }
-        this.items.unshift(data)
+        this.items.push(data)
       }
     },
   }

@@ -175,20 +175,22 @@ export default class Subscriptions {
         // Store locally in flattened array
 
         Object.keys(data.data).forEach((log) => {
+            let current_log = []
             this.log_list.push(log)
             this.process_callback(this.subs, "log", "add", log)
             for (let i = 0; i < data.data[log].lines.length; i++) {
                 let log_entry = {log: log, line: data.data[log].lines[i]}
-                if (this.logs.length >= this.max_logs) {
-                    this.logs.pop()
+                if (current_log.length >= this.max_logs) {
+                    current_log.pop()
                 }
-                this.logs.push(log_entry)
+                current_log.unshift(log_entry)
             }
-            for (let i = 0; i < this.logs.length; i++) {
-                this.process_callback(this.subs, "log", "update", "", this.logs[i])
-            }
-
+            this.logs = this.logs.concat(current_log)
         })
+        for (let i = 0; i < this.logs.length; i++) {
+            this.process_callback(this.subs, "log", "update", "", this.logs[i])
+        }
+
     }
 
     got_initial_state(data) {
