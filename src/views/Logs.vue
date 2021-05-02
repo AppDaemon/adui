@@ -1,13 +1,16 @@
 <template>
-  <h1>Logs</h1>
+  <Logs/>
 </template>
 
 <script>
+import Logs from '@/components/Logs'
+
 export default {
   title: 'Logs',
-    mounted()
-  {
-        this.$emit('update-title', "Logs")
+  components:
+      {Logs},
+  mounted() {
+    this.$emit('update-title', "Logs")
   },
 }
 </script>

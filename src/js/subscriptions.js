@@ -13,6 +13,7 @@ export default class Subscriptions {
         this.events = []
         this.lognames = []
         this.logs = []
+        this.log_list = []
         this.max_events = 1000
         this.max_logs = 1000
     }
@@ -27,6 +28,10 @@ export default class Subscriptions {
 
     get_namespaces() {
         return this.namespace
+    }
+
+    get_log_list() {
+        return this.log_list
     }
 
     set_host(host, port) {
@@ -52,6 +57,12 @@ export default class Subscriptions {
             // Send all events we have
             for (let i = this.events.length - 1; i >= 0; i--) {
                 this.process_callback([this.subs[handle]], "event", "", "", this.events[i])
+            }
+        }
+        if (type === "log") {
+            // Send all logs we have
+            for (let i = this.logs.length - 1; i >= 0; i--) {
+                this.process_callback([this.subs[handle]], "log", "update", "", this.logs[i])
             }
         }
         return handle
@@ -102,6 +113,9 @@ export default class Subscriptions {
                     if (match) {
                         subs[key].callback(entity, operation, data, sub.copyfunction)
                     }
+                } else if (type === "log") {
+                    subs[key].callback(operation, data)
+
                 } else if (type === "event") {
                     subs[key].callback(data)
                 }
@@ -136,7 +150,7 @@ export default class Subscriptions {
 
         // Grab recent logfiles
 
-        this.stream.get_logs(this.got_logs.bind(this))
+        this.stream.get_logs(this.got_logs.bind(this), 1000)
 
         // subscribe to all events
 
@@ -161,12 +175,19 @@ export default class Subscriptions {
         // Store locally in flattened array
 
         Object.keys(data.data).forEach((log) => {
-            this.lognames.push(log)
+            this.log_list.push(log)
             this.process_callback(this.subs, "log", "add", log)
-            for (let i = 0; i < data.data[log].lines; i++) {
-                this.logs.push({log: log, line: data.data[log].lines[i]})
-                this.process_callback(this.subs, "log", "update", log, data.data[log].lines[i])
+            for (let i = 0; i < data.data[log].lines.length; i++) {
+                let log_entry = {log: log, line: data.data[log].lines[i]}
+                if (this.logs.length >= this.max_logs) {
+                    this.logs.pop()
+                }
+                this.logs.push(log_entry)
             }
+            for (let i = 0; i < this.logs.length; i++) {
+                this.process_callback(this.subs, "log", "update", "", this.logs[i])
+            }
+
         })
     }
 
@@ -196,10 +217,6 @@ export default class Subscriptions {
         let state = data.data.data.state
         let fqentity = ns + "." + entity
         data.data.time_received = new Date
-        if (this.events.length >= this.max_events) {
-            this.events.pop()
-        }
-        this.events.unshift(data.data)
 
         if (data.data.event_type === "__AD_ENTITY_ADDED") {
 
@@ -219,8 +236,21 @@ export default class Subscriptions {
 
             this.process_callback(this.subs, "state", "remove", fqentity, state)
 
+        } else if (data.data.event_type === "__AD_LOG_EVENT") {
+            let log_entry = {log: data.data.data.log_type, line: data.data.data.formatted_message}
+            if (this.logs.length >= this.max_logs) {
+                this.logs.pop()
+            }
+            this.logs.unshift(log_entry)
+            this.process_callback(this.subs, "log", "update", "", log_entry)
+        } else {
+            if (this.events.length >= this.max_events) {
+                this.events.pop()
+            }
+            this.events.unshift(data.data)
+
+            this.process_callback(this.subs, "event", "", "", data.data)
         }
-        this.process_callback(this.subs, "event", "", "", data.data)
     }
 
     got_state_update(data) {

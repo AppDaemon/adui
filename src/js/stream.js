@@ -193,11 +193,16 @@ export default class Stream {
         this.send(request, callback)
     }
 
-    get_logs(callback) {
+    get_logs(callback, maxlines) {
         var request = {
             request_type: "get_logs",
             data: {}
         };
+
+        if (maxlines !== null)
+        {
+            request.data.maxlines = maxlines
+        }
 
         this.send(request, callback)
     }
