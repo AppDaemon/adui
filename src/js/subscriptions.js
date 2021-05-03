@@ -241,9 +241,9 @@ export default class Subscriptions {
         } else if (data.data.event_type === "__AD_LOG_EVENT") {
             let log_entry = {log: data.data.data.log_type, line: data.data.data.formatted_message}
             if (this.logs.length >= this.max_logs) {
-                this.logs.pop()
+                this.logs.shift()
             }
-            this.logs.unshift(log_entry)
+            this.logs.push(log_entry)
             this.process_callback(this.subs, "log", "update", "", log_entry)
         } else {
             if (this.events.length >= this.max_events) {
