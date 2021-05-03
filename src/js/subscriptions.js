@@ -61,7 +61,7 @@ export default class Subscriptions {
         }
         if (type === "log") {
             // Send all logs we have
-            for (let i = this.logs.length - 1; i >= 0; i--) {
+            for (let i = 0; i < this.logs.length; i++) {
                 this.process_callback([this.subs[handle]], "log", "update", "", this.logs[i])
             }
         }
