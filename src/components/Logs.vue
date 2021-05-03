@@ -80,7 +80,7 @@ export default {
         if (this.items.length >= (this.$SUBS.MAX_LOGS * this.log_names.length)) {
           this.items.pop()
         }
-        this.items.push(data)
+        this.items.unshift(data)
       }
     },
   }
