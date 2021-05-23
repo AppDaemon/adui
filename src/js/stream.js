@@ -206,6 +206,15 @@ export default class Stream {
 
         this.send(request, callback)
     }
+
+    list_dashes(callback) {
+        var request = {
+            request_type: "list_dashes",
+            data: {}
+        };
+
+        this.send(request, callback)
+    }
 }
 
 class WSStream {
