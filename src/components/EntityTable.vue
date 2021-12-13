@@ -37,11 +37,16 @@
       <template v-for="(header, index) in headers.filter((header) =>
     header.hasOwnProperty('formatter') ||
     header.hasOwnProperty('icon') ||
-    header.hasOwnProperty('args')
+    header.hasOwnProperty('args') ||
+    header.text === 'Name'
     )"
                 v-slot:[`item.${header.value}`]="{ header, value }">
       <span v-bind:key="index" v-if="header.hasOwnProperty('formatter')">
         {{ header.formatter(value) }}
+      </span>
+      <span v-bind:key="index" v-if="header.text === 'Name'">
+        <a v-if="value.match('^sequence\.')" v-on:click="run_sequence(value)">{{ value }}</a>
+        <span v-else>{{ value }}</span>
       </span>
         <span v-bind:key="index" v-else-if="header.hasOwnProperty('icon')">
       <v-icon :color="header.icon[value].color" v-bind:key="index">{{ header.icon[value].icon }}</v-icon>
@@ -82,6 +87,17 @@ export default {
       return this.items.filter((i) => {
         return !this.filterValue || (i.ns === this.filterValue);
       })
+    }
+  },
+  methods: {
+    run_sequence(seq) {
+      let service = "sequence/run"
+      let namespace = "rules"
+      let args = {
+        namespace: "default",
+        entity_id: seq
+      }
+      this.$SUBS.stream.call_service(service, namespace, args)
     }
   }
 }
