@@ -44,6 +44,7 @@ export default {
     let ns = this.$SUBS.get_namespaces()
     for (let i = 0; i < ns.length; i++) {
       this.subs.push(this.$SUBS.add_sub("state", ns[i], (entity, action, state) => {
+        console.log(this.entities)
         this.$UTILS.update_entity_table(entity, action, state, this.entities, this.copy_function)
       }))
       this.ns.push(ns[i])

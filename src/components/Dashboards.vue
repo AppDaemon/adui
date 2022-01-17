@@ -16,14 +16,7 @@
               md="6"
               lg="4"
           >
-            <v-card :href="item.link" width="500">
-              <v-card-title
-                  class="headline"
-                  v-text="item.dash"
-              ></v-card-title>
-              <v-spacer></v-spacer>
-              <HTMLThumb :url="item.link"/>
-            </v-card>
+            <a :href="item.link">{{item.dash}}</a>
 
           </v-col>
         </v-row>
@@ -33,7 +26,7 @@
 </template>
 
 <script>
-import HTMLThumb from "@/components/HTMLThumb";
+//import HTMLThumb from "@/components/HTMLThumb";
 
 export default {
   name: "Dashboards",
@@ -46,7 +39,7 @@ export default {
   },
   components:
       {
-        HTMLThumb
+        //HTMLThumb
       },
   data: function () {
     return {
