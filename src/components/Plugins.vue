@@ -17,8 +17,10 @@ export default {
           [
             {text: "Name", value: "entity_id", width: "15%"},
             {text: "State", value: "state", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
-            {text: "Callbacks (Instance)", value: "instance_callbacks", width: "10%"},
-            {text: "Callbacks (Lifetime)", value: "total_callbacks", width: "10%"},
+            {text: "Requests Sent/s", value: "requests_sent_ps", width: "10%"},
+            {text: "Requests Recv/s", value: "requests_recv_ps", width: "10%"},
+            {text: "Bytes Sent/s", value: "bytes_sent_ps", width: "10%"},
+            {text: "Bytes Recv/s", value: "bytes_recv_ps", width: "10%"},
           ],
       plugins: [],
       subs: []
