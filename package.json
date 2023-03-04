@@ -5,17 +5,21 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "webpack-defaults": "webpack-defaults"
   },
   "dependencies": {
     "aws-sdk": "^2.889.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
+    "cache-loader": "^4.1.0",
+    "cli-service": "^0.0.2",
     "core-js": "^3.6.5",
     "mock-aws-s3": "^4.0.2",
     "nock": "^13.0.11",
     "reconnecting-websocket": "^4.4.0",
     "typeface-roboto": "^1.1.13",
+    "uuid": "^9.0.0",
     "v-tooltip": "^2.1.3",
     "vue": "^2.6.11",
     "vue-cli": "^2.9.6",

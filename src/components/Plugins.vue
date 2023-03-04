@@ -18,9 +18,9 @@ export default {
             {text: "Name", value: "entity_id", width: "15%"},
             {text: "State", value: "state", width: "15%", formatter: (cb) => {return this.$UTILS.formatFixedLen(cb,30)}},
             {text: "Requests Sent/s", value: "requests_sent_ps", width: "10%"},
-            {text: "Requests Recv/s", value: "requests_recv_ps", width: "10%"},
-            {text: "Bytes Sent/s", value: "bytes_sent_ps", width: "10%"},
-            {text: "Bytes Recv/s", value: "bytes_recv_ps", width: "10%"},
+            {text: "Updates Recv/s", value: "updates_recv_ps", width: "10%"},
+            {text: "Bytes Sent", value: "bytes_sent_ps", width: "10%"},
+            {text: "Bytes Recv", value: "bytes_recv_ps", width: "10%"},
           ],
       plugins: [],
       subs: []
@@ -39,8 +39,10 @@ export default {
     {
       table_entry.entity_id = state.entity_id
       table_entry.state = state.state
-      table_entry.instance_callbacks = state.attributes.instancecallbacks
-      table_entry.total_callbacks = state.attributes.totalcallbacks
+      table_entry.requests_sent_ps = state.attributes.requests_sent_ps
+      table_entry.updates_recv_ps = state.attributes.updates_recv_ps
+      table_entry.bytes_sent_ps = this.$UTILS.intToString(state.attributes.bytes_sent_ps)
+      table_entry.bytes_recv_ps = this.$UTILS.intToString(state.attributes.bytes_recv_ps)
       return(table_entry)
     }
   }

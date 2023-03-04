@@ -1,5 +1,5 @@
 import Stream from './stream.js'
-import uuid from 'uuid/v4'
+import { v4 as uuidv4 } from 'uuid';
 
 export default class Subscriptions {
 
@@ -40,7 +40,7 @@ export default class Subscriptions {
     }
 
     add_sub(type, spec, callback, copy_function) {
-        var handle = uuid()
+        var handle = uuidv4()
         this.subs[handle] = {type: type, spec: spec, callback: callback, copyfunction: copy_function}
 
         if (type === "state") {
